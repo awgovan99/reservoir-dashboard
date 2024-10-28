@@ -21,6 +21,7 @@ const SelectArea = () => {
 
         const data = await response.json(); 
         console.log(data.message); 
+        console.log(data.data); 
     }
 
     return (
