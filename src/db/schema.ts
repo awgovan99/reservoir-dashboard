@@ -1,10 +1,10 @@
 import { sql } from 'drizzle-orm';
 import { integer, text, sqliteTable, primaryKey } from 'drizzle-orm/sqlite-core';
 
-export const waterLevelsTemp = sqliteTable('levels', {
+export const waterLevels = sqliteTable('levels', {
   currentlvl: integer('currentlvl').notNull(),
   changeFromLast: integer('change_from_last').notNull(),
-  country: text('country').notNull(),
+  // country: text('country').notNull(), // might not need this, could include country in area e.g scotland west
   area: text('area').notNull(),
   date: text('date').notNull(),
   // id: integer('id').primaryKey({autoIncrement: true})
