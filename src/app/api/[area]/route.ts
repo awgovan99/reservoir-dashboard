@@ -10,7 +10,7 @@ export async function GET(req: NextRequest, context: { params: { area: string } 
    
     console.log("api: " + area)
 
-    let res = {message: 'Invalid request', data: {}}
+    let res = {message: 'Invalid request', data: []}
 
     if(area !== "UK") {
         const qry = await db.select().from(waterLevels).where(eq(waterLevels.area, area));
