@@ -1,12 +1,6 @@
 'use client';
 import React, { useState } from 'react'
-
-interface Data {
-    currentlvl: number,
-    changeFromLast: number,
-    area: string,
-    date: string
-}
+import { DisplayData } from './DisplayData';
 
 const SelectArea = () => {
     const [selectedArea, setArea] = useState("UK");
@@ -21,7 +15,8 @@ const SelectArea = () => {
         const response = await fetch(`/api/${encodeURIComponent(selectedArea)}`,{
             next:{revalidate: 10}
         });
-
+        
+        // This error did get thrown so will have to deal with this
         if (!response.ok) {
             throw new Error('Failed to fetch area data');
           }
@@ -42,28 +37,10 @@ const SelectArea = () => {
                 ))}
             </select>
 
-            {/* Run db query when press button, then display table with results */}
             <button onClick={getData}>submit</button> 
-        
-            <h1>Reservoir Levels</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Reservoir Level</th>
-                        <th>Change From Last</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {data.map((d:Data, index) => (
-                        <tr key={index}>
-                            <td>{d.currentlvl}</td>
-                            <td>{d.changeFromLast}</td>
-                            <td>{d.date}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+
+            <DisplayData area={selectedArea} data={data} />
+
         </div>
     )
 }
