@@ -4,6 +4,7 @@ import { DisplayData } from './DisplayData';
 
 const SelectArea = () => {
     const [selectedArea, setArea] = useState("UK");
+    const [submittedArea, setSubmit] = useState("UK");
     const [data, setData] = useState([]);
 
     // UK should get avg lvl for whole country
@@ -25,21 +26,26 @@ const SelectArea = () => {
         
         console.log(data.data); 
         setData(data.data)
+        setSubmit(selectedArea)
     }
 
     return (
         <div>
-            <select name="levels" id="levels" value={selectedArea} onChange={(e) => setArea(e.target.value)}>
-                {areas.map((area, index) => (
-                    <option key={index} value={area}>
-                        {area}
-                    </option>
-                ))}
-            </select>
+            <div>
+                <select name="levels" id="levels" value={selectedArea} onChange={(e) => setArea(e.target.value)}>
+                    {areas.map((area, index) => (
+                        <option key={index} value={area}>
+                            {area}
+                        </option>
+                    ))}
+                </select>
 
-            <button onClick={getData}>submit</button> 
-
-            <DisplayData area={selectedArea} data={data} />
+                <button onClick={getData}>submit</button> 
+            </div>
+            
+            <div className='flex'>
+                <DisplayData area={submittedArea} data={data} />
+            </div>
 
         </div>
     )
