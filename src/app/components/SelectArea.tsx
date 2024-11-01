@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { DisplayData } from './DisplayData';
 
 const SelectArea = () => {
@@ -9,6 +9,11 @@ const SelectArea = () => {
 
     // UK should get avg lvl for whole country
     const areas = ["UK", "North Scotland", "West Scotland", "East Scotland", "South Scotland"]
+
+    // calls function when page loads
+    useEffect(() => {
+        getData();
+    }, []);
 
     const getData = async () => {
         console.log("Area: " + selectedArea)

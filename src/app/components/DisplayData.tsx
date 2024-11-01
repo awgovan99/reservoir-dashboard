@@ -21,11 +21,11 @@ export function DisplayData(params: { area: string, data: Data[] } ) {
             <figure className='pr-6 pt-3'>
                 {/* <ResponsiveContainer width="100%" minHeight={300}> */}
                     <LineChart width={700} height={300} data={data} >
-                        <Line name="Reservoir Levels" type="monotone" dataKey="currentlvl" stroke="#8884d8" />
+                        <Line name="Reservoir Levels" type="monotone" dataKey="currentlvl" stroke="#8884d8" dot={false}/>
                         <CartesianGrid stroke="#ccc" />
                         <XAxis dataKey="date" />
                         <YAxis tickFormatter={(tick) => tick + "%"}/>
-                        <Tooltip formatter={(tick) => tick + "%"}/>
+                        <Tooltip formatter={(tick) => Math.round(tick as number) + "%"}/>
                     </LineChart>
                 {/* </ResponsiveContainer> */}
             </figure>
