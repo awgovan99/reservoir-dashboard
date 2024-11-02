@@ -1,6 +1,10 @@
 'use client';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { DisplayData } from './DisplayData';
+import { CurrentLevel } from './CurrentLevel';
+import { ChangeFromLast } from './ChangeFromLast';
+import { HighestLevel } from './HighestLevel';
+import { LowestLevel } from './LowestLevel';
 
 const SelectArea = () => {
     const [selectedArea, setArea] = useState("UK");
@@ -9,6 +13,11 @@ const SelectArea = () => {
 
     // UK should get avg lvl for whole country
     const areas = ["UK", "North Scotland", "West Scotland", "East Scotland", "South Scotland"]
+
+    // calls function when page loads
+    useEffect(() => {
+        getData();
+    }, []);
 
     const getData = async () => {
         console.log("Area: " + selectedArea)
@@ -43,8 +52,12 @@ const SelectArea = () => {
                 <button onClick={getData}>submit</button> 
             </div>
             
-            <div className='flex'>
+            <div className=''>
                 <DisplayData area={submittedArea} data={data} />
+                <CurrentLevel data={data}/>
+                <ChangeFromLast data={data}/>
+                <HighestLevel data={data}/>
+                <LowestLevel data={data}/>
             </div>
 
         </div>

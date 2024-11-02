@@ -1,5 +1,3 @@
-import { db } from "@/db";
-import { waterLevels } from '../db/schema'
 import SelectArea from "./components/SelectArea";
 
 // Your dashboard should be able to give users the ability to view the UKs water levels as 
