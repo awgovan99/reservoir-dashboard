@@ -52,12 +52,24 @@ const SelectArea = () => {
                 <button onClick={getData}>submit</button> 
             </div>
             
-            <div className=''>
+            <div className='w-3/4 mx-10'>
+                {/* Graph */}
                 <DisplayData area={submittedArea} data={data} />
-                <CurrentLevel data={data}/>
-                <ChangeFromLast data={data}/>
-                <HighestLevel data={data}/>
-                <LowestLevel data={data}/>
+                
+                {/* Extra Info */}
+                <div className='flex flex-col w-full'>
+                    {/* First Row */}
+                    <div className='flex w-full space-x-4'>
+                        <CurrentLevel data={data}/>
+                        <ChangeFromLast data={data}/>
+                    </div>
+                    {/* Second Row */}
+                    <div className='flex w-full space-x-4'>
+                        <HighestLevel data={data}/>
+                        <LowestLevel data={data}/>
+                    </div>
+                </div>
+
             </div>
 
         </div>
