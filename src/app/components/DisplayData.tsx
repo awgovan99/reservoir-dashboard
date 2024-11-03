@@ -21,8 +21,8 @@ export function DisplayData(params: { area: string, data: Data[] } ) {
             <figure className='pr-6 pt-3'>
                 {/* <ResponsiveContainer width="100%" minHeight={300}> */}
                     <LineChart width={700} height={300} data={data} >
-                        <Line name="Reservoir Level" type="monotone" dataKey="currentlvl" stroke="#8884d8" dot={false}/>
-                        <CartesianGrid stroke="#ccc" />
+                        <Line name="Reservoir Level" type="monotone" dataKey="currentlvl" stroke='#4169E1' strokeWidth={2} dot={false}/>
+                        <CartesianGrid stroke="#ccc" vertical={false}/>
                         <XAxis dataKey="date" />
                         <YAxis tickFormatter={(tick) => tick + "%"}/>
                         <Tooltip formatter={(tick) => Math.round(tick as number) + "%"}/>

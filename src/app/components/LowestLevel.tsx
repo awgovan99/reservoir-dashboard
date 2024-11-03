@@ -18,7 +18,7 @@ export function LowestLevel(params: {data: Data[]}) {
         <div className='card shadow-xl bg-white mt-4 w-2/5 flex-1'>
             <div className="card-body items-center text-center">
                 <h1 className="card-title">Lowest Level</h1>
-                <h2>{Math.round(lowestLvl) + "%"}</h2>
+                <p className='text-4xl'>{Math.round(lowestLvl) + "%"}</p>
             </div>
         </div>
     )
