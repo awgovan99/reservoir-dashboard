@@ -3,10 +3,16 @@ import { db } from "@/db";
 import { waterLevels } from '@/db/schema'
 import { avg, eq } from "drizzle-orm";
 
+type Props = {
+    params: Promise<{
+      area: string;
+    }>
+  };
 
-export async function GET(req: NextRequest, context: { params: { area: string } }) {
-    
-    const {area} = await context.params
+export async function GET(req: NextRequest, { params }: Props) {
+
+    const resolvedParams = await params
+    const { area } = resolvedParams
    
     console.log("api: " + area)
 

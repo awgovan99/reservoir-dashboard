@@ -15,7 +15,7 @@ export function ChangeFromLast(params: {data: Data[]}) {
     }
 
     return(
-        <div className='card shadow-xl bg-white mt-4 flex-1'>
+        <div className='card shadow-xl border-2 bg-white border-black mt-4 flex-1'>
             <div className="card-body items-center text-center">
                 <h1 className="card-title">Change From Last</h1>
                 <p className='text-4xl'>{Math.round(change) + "%"}</p>

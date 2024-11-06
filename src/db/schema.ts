@@ -1,4 +1,3 @@
-import { sql } from 'drizzle-orm';
 import { integer, text, sqliteTable, primaryKey } from 'drizzle-orm/sqlite-core';
 
 export const waterLevels = sqliteTable('levels', {
