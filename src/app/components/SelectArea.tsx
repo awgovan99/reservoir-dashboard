@@ -13,6 +13,8 @@ const SelectArea = () => {
 
     // UK should get avg lvl for whole country
     const areas = ["UK", "North Scotland", "West Scotland", "East Scotland", "South Scotland"]
+    const areasScotland = ["North Scotland", "West Scotland", "East Scotland", "South Scotland"]
+    const areasWales = ["North West Wales", "North East Wales", "South West Wales", "South East Wales"]
 
     // calls function when page loads
     useEffect(() => {
@@ -50,6 +52,27 @@ const SelectArea = () => {
                 </select>
 
                 <button onClick={getData}>submit</button> 
+            </div>
+            
+            {/* Could map these based on country aswell */}
+            <div className="collapse collapse-arrow bg-white border-2 border-black shadow-xl">
+                <input type="checkbox" />
+                <div className="collapse-title text-xl font-medium">Scotland</div>
+                <div className="collapse-content">
+                    {areasScotland.map((area, index) => (
+                        <button onClick={() => {if(area != selectedArea) {setArea(area); console.log(area)}}} className="btn mr-2 bg-blue-400 btn-info" key={index} value={area}>{area}</button>
+                    ))}
+                </div>
+            </div>
+
+            <div className="collapse collapse-arrow bg-white border-2 border-black mt-4 shadow-xl">
+                <input type="checkbox" />
+                <div className="collapse-title text-xl font-medium">Wales</div>
+                <div className="collapse-content">
+                    {areasWales.map((area, index) => (
+                        <button className="btn mr-2" key={index} value={area}>{area}</button>
+                    ))}
+                </div>
             </div>
             
             <div className='w-3/4 mx-10'>

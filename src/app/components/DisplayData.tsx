@@ -18,7 +18,7 @@ export function DisplayData(params: { area: string, data: Data[] } ) {
                 <h1 className='card-title font-serif'>Reservoir Levels in {area}</h1>
             </div>
             <figure className='pr-6 pt-3'>
-                <ResponsiveContainer minWidth={400} width={"100%"} height={300}>
+                <ResponsiveContainer width="99%" height={300}>
                     <LineChart width={700} height={300} data={data} >
                         <Line name="Reservoir Level" type="monotone" dataKey="currentlvl" stroke='#4169E1' strokeWidth={2} dot={false}/>
                         <CartesianGrid stroke="#ccc" vertical={false}/>
