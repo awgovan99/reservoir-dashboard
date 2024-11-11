@@ -8,11 +8,10 @@ const SelectArea = () => {
     const [data, setData] = useState([]);
 
     // UK should get avg lvl for whole country
-    const areas = ["UK", "North Scotland", "West Scotland", "East Scotland", "South Scotland"]
     const areasScotland = ["North Scotland", "West Scotland", "East Scotland", "South Scotland"]
     const areasWales = ["North West Wales", "North East Wales", "South West Wales", "South East Wales"]
-    const areasEngland: any[] = []
-    const areasNIreland:any[] = []
+    // const areasEngland: any[] = []
+    // const areasNIreland: any[] = []
 
     // calls function when page loads
     useEffect(() => {
@@ -68,7 +67,7 @@ const SelectArea = () => {
                 <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
                 <div className="drawer-content flex flex-col items-center justify-center">
                     {/* Page content here */}
-                    <label htmlFor="my-drawer-2" className="btn drawer-button lg:hidden mb-2">Open drawer</label>
+                    <label htmlFor="my-drawer-2" className="btn drawer-button lg:hidden bg-base-300 my-2">View Areas</label>
 
                     <DisplayData area={submittedArea} data={data} />
 
@@ -88,7 +87,7 @@ const SelectArea = () => {
                         {/* Scotland */}
                         <div className="collapse collapse-arrow bg-white border-2 border-black mt-4 shadow-xl">
                             <input type="checkbox" />
-                            <div className="collapse-title text-xl font-medium">Scotland</div>
+                            <div className="collapse-title text-xl font-medium text-black">Scotland</div>
                             <div className="collapse-content">
                                 {areasScotland.map((area, index) => (
                                     <button onClick={() => {if(area !== selectedArea) {console.log(area); getButtonData(area)}}} className={`btn mb-1 w-full text-black bg-blue-300 hover:bg-blue-500 ${
@@ -100,23 +99,15 @@ const SelectArea = () => {
                         </div>
 
                         {/* England */}
-                        <div className="collapse collapse-arrow bg-white border-2 border-black mt-4 shadow-xl">
-                            <input type="checkbox" />
-                            <div className="collapse-title text-xl font-medium">England</div>
-                            <div className="collapse-content">
-                                {areasEngland.map((area, index) => (
-                                    <button onClick={() => {if(area !== selectedArea) {console.log(area); /*getButtonData(area)*/}}} className="btn text-black" key={index} value={area}>{area}</button>
-                                ))}
-                            </div>
-                        </div>
+                        
 
                         {/* Wales */}
                         <div className="collapse collapse-arrow bg-white border-2 border-black mt-4 shadow-xl">
                             <input type="checkbox" />
-                            <div className="collapse-title text-xl font-medium">Wales</div>
+                            <div className="collapse-title text-xl font-medium text-black">Wales</div>
                             <div className="collapse-content">
                                 {areasWales.map((area, index) => (
-                                    <button onClick={() => {if(area !== selectedArea) {console.log(area); /*getButtonData(area)*/}}} className={`btn mb-1 w-full text-black bg-blue-300 hover:bg-blue-500 ${
+                                    <button onClick={() => {if(area !== selectedArea) {console.log(area); getButtonData(area)}}} className={`btn mb-1 w-full text-black bg-blue-300 hover:bg-blue-500 ${
                                         // Highlights clicked button
                                         area === selectedArea ? "bg-blue-500" : "bg-blue-300"
                                     }`} key={index} value={area}>{area}</button>
@@ -125,15 +116,7 @@ const SelectArea = () => {
                         </div>
 
                         {/* Northern Ireland */}
-                        <div className="collapse collapse-arrow bg-white border-2 border-black mt-4 shadow-xl">
-                            <input type="checkbox" />
-                            <div className="collapse-title text-xl font-medium">Northern Ireland</div>
-                            <div className="collapse-content">
-                                {areasNIreland.map((area, index) => (
-                                    <button onClick={() => {if(area !== selectedArea) {console.log(area); /*getButtonData(area)*/}}} className="btn text-black" key={index} value={area}>{area}</button>
-                                ))}
-                            </div>
-                        </div>
+                        
 
                     </ul>
                 </div>
