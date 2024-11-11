@@ -61,17 +61,17 @@ const SelectArea = () => {
     }
 
     return (
-        <div className='mb-10'>
+        <div className=''>
 
             <div className="drawer lg:drawer-open">
 
                 <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
                 <div className="drawer-content flex flex-col items-center justify-center">
                     {/* Page content here */}
-                    <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">
-                    Open drawer
-                    </label>
+                    <label htmlFor="my-drawer-2" className="btn drawer-button lg:hidden mb-2">Open drawer</label>
+
                     <DisplayData area={submittedArea} data={data} />
+
                 </div>
 
                 <div className="drawer-side">
@@ -80,9 +80,9 @@ const SelectArea = () => {
                     {/* Sidebar content here */}
                         
                         {/* UK */}
-                        <button onClick={() => {if("UK" !== selectedArea) {console.log("UK"); getButtonData("UK")}}} className={`border-2 border-black mt-4 shadow-xl btn mr-2 text-black bg-blue-400 hover:bg-blue-500 ${
+                        <button onClick={() => {if("UK" !== selectedArea) {console.log("UK"); getButtonData("UK")}}} className={`border-2 border-black mt-4 shadow-xl btn text-black bg-blue-300 hover:bg-blue-500 ${
                             // Highlights clicked button
-                            "UK" === selectedArea ? "bg-blue-500" : "bg-blue-400"
+                            "UK" === selectedArea ? "bg-blue-500" : "bg-blue-300"
                         }`}>UK</button>
                     
                         {/* Scotland */}
@@ -91,9 +91,9 @@ const SelectArea = () => {
                             <div className="collapse-title text-xl font-medium">Scotland</div>
                             <div className="collapse-content">
                                 {areasScotland.map((area, index) => (
-                                    <button onClick={() => {if(area !== selectedArea || true) {console.log(area); getButtonData(area)}}} className={`btn mr-2 text-black bg-blue-400 hover:bg-blue-500 ${
+                                    <button onClick={() => {if(area !== selectedArea) {console.log(area); getButtonData(area)}}} className={`btn mb-1 w-full text-black bg-blue-300 hover:bg-blue-500 ${
                                         // Highlights clicked button
-                                        area === selectedArea ? "bg-blue-500" : "bg-blue-400"
+                                        area === selectedArea ? "bg-blue-500" : "bg-blue-300"
                                     }`}  key={index} value={area}>{area}</button>
                                 ))}
                             </div>
@@ -105,7 +105,7 @@ const SelectArea = () => {
                             <div className="collapse-title text-xl font-medium">England</div>
                             <div className="collapse-content">
                                 {areasEngland.map((area, index) => (
-                                    <button onClick={() => {if(area !== selectedArea || true) {console.log(area); /*getButtonData(area)*/}}} className="btn mr-2 text-black" key={index} value={area}>{area}</button>
+                                    <button onClick={() => {if(area !== selectedArea) {console.log(area); /*getButtonData(area)*/}}} className="btn text-black" key={index} value={area}>{area}</button>
                                 ))}
                             </div>
                         </div>
@@ -116,7 +116,10 @@ const SelectArea = () => {
                             <div className="collapse-title text-xl font-medium">Wales</div>
                             <div className="collapse-content">
                                 {areasWales.map((area, index) => (
-                                    <button onClick={() => {if(area !== selectedArea || true) {console.log(area); /*getButtonData(area)*/}}} className="btn mr-2 text-black" key={index} value={area}>{area}</button>
+                                    <button onClick={() => {if(area !== selectedArea) {console.log(area); /*getButtonData(area)*/}}} className={`btn mb-1 w-full text-black bg-blue-300 hover:bg-blue-500 ${
+                                        // Highlights clicked button
+                                        area === selectedArea ? "bg-blue-500" : "bg-blue-300"
+                                    }`} key={index} value={area}>{area}</button>
                                 ))}
                             </div>
                         </div>
@@ -127,7 +130,7 @@ const SelectArea = () => {
                             <div className="collapse-title text-xl font-medium">Northern Ireland</div>
                             <div className="collapse-content">
                                 {areasNIreland.map((area, index) => (
-                                    <button onClick={() => {if(area !== selectedArea || true) {console.log(area); /*getButtonData(area)*/}}} className="btn mr-2 text-black" key={index} value={area}>{area}</button>
+                                    <button onClick={() => {if(area !== selectedArea) {console.log(area); /*getButtonData(area)*/}}} className="btn text-black" key={index} value={area}>{area}</button>
                                 ))}
                             </div>
                         </div>

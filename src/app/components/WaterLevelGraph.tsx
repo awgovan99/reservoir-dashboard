@@ -12,7 +12,7 @@ export function WaterLevelGraph({ area, data }: { area: string, data: Data[] } )
     return (
         <div className='card shadow-xl pb-2 border-2 border-black bg-white w-full'>
             <div className="card-body items-center text-center">
-                <h1 className='card-title font-serif'>Reservoir Levels in {area}</h1>
+                <h1 className='card-title'>Reservoir Levels in {area}</h1>
             </div>
             <figure className='pr-6 pt-3 '>
                 <ResponsiveContainer width="99%" height={300}>
