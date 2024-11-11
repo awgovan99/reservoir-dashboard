@@ -21,6 +21,7 @@ const SelectArea = () => {
         getData();
     }, []);
 
+    //should remove at somepoint
     const getData = async () => {
         console.log("Area: " + selectedArea)
         
@@ -40,9 +41,33 @@ const SelectArea = () => {
         setSubmit(selectedArea)
     }
 
+    const getButtonData = async (area: string) => {
+        console.log("Button Area: " + area)
+        
+        const response = await fetch(`/api/${encodeURIComponent(area)}`,{
+            //think can set method to get
+        
+            
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch area data');
+          }
+          
+        const data = await response.json();  
+        
+        console.log(data.data); 
+        setData(data.data)
+        setArea(area)
+        setSubmit(area)
+    }
+
     return (
         <div>
+            
+            {/*  */}
             <div>
+                {/* should remove at somepoint */}
                 <select name="levels" id="levels" value={selectedArea} onChange={(e) => setArea(e.target.value)}>
                     {areas.map((area, index) => (
                         <option key={index} value={area}>
@@ -53,24 +78,36 @@ const SelectArea = () => {
 
                 <button onClick={getData}>submit</button> 
             </div>
+            {/*  */}
             
+            {/* Need to figure out how to select UK */}
+            <button onClick={() => {if("UK" !== selectedArea) {console.log("UK"); getButtonData("UK")}}} className={`border-2 border-black mt-4 shadow-xl btn mr-2 text-black bg-blue-400 hover:bg-blue-500 ${
+                // Highlights clicked button
+                "UK" === selectedArea ? "bg-blue-500" : "bg-blue-400"
+            }`}>UK</button>
+
             {/* Could map these based on country aswell */}
-            <div className="collapse collapse-arrow bg-white border-2 border-black shadow-xl">
+            {/* Scotland */}
+            <div className="collapse collapse-arrow bg-white border-2 border-black mt-4 shadow-xl">
                 <input type="checkbox" />
                 <div className="collapse-title text-xl font-medium">Scotland</div>
                 <div className="collapse-content">
                     {areasScotland.map((area, index) => (
-                        <button onClick={() => {if(area != selectedArea) {setArea(area); console.log(area)}}} className="btn mr-2 bg-blue-400 btn-info" key={index} value={area}>{area}</button>
+                        <button onClick={() => {if(area !== selectedArea || true) {console.log(area); getButtonData(area)}}} className={`btn mr-2 text-black bg-blue-400 hover:bg-blue-500 ${
+                            // Highlights clicked button
+                            area === selectedArea ? "bg-blue-500" : "bg-blue-400"
+                        }`}  key={index} value={area}>{area}</button>
                     ))}
                 </div>
             </div>
-
+            
+            {/* Wales */}
             <div className="collapse collapse-arrow bg-white border-2 border-black mt-4 shadow-xl">
                 <input type="checkbox" />
                 <div className="collapse-title text-xl font-medium">Wales</div>
                 <div className="collapse-content">
                     {areasWales.map((area, index) => (
-                        <button className="btn mr-2" key={index} value={area}>{area}</button>
+                        <button onClick={() => {if(area !== selectedArea || true) {console.log(area); /*getButtonData(area)*/}}} className="btn mr-2 text-black" key={index} value={area}>{area}</button>
                     ))}
                 </div>
             </div>

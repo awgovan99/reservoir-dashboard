@@ -9,6 +9,8 @@ type Props = {
     }>
   };
 
+  //might remove message from data
+
 export async function GET(req: NextRequest, { params }: Props) {
 
     const resolvedParams = await params

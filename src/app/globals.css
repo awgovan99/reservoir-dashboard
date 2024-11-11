@@ -16,6 +16,13 @@
   }
 }
 
+/* extends background to bottom */
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow-x: hidden;
+}
+
 body {
   /* color: var(--foreground); */
   color: #0a0a0a;
