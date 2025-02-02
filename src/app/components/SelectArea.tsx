@@ -10,7 +10,19 @@ const SelectArea = () => {
     // UK should get avg lvl for whole country
     const areasScotland = ["North Scotland", "West Scotland", "East Scotland", "South Scotland"]
     const areasWales = ["North West Wales", "North East Wales", "South West Wales", "South East Wales"]
-    // const areasEngland: any[] = []
+    
+    const areasEnglandNames = ["North West", "North East", "Midlands", "South West", "South East"] 
+
+    // Have 2d array of eng sub areas e.g. array of midlands reservoirs inside sub areas area, then map in england dropdown menu
+    // List reservoirs instead of companies
+
+    const areasNorthWest = ["Carlisle", "Haweswater & Thirlmere", "Pennine Sources", "Dee & Vyrnwy Reservoirs"];  // United utilities Water
+    const areasNorthEast = ["Northumberland", "Weardale", "Teesdale", "Kielder Reservoir", "Yorkshire"];  // Northumbrian water, Yorkshire water, anh(Anglian Water)
+    const areasMidlands =  ["Blithfield Reservoir"];   // *Severn Trent Water(Could maybe say Severn Trent region?), SSC(South Staffordshire Water), Anglian Water
+    const areasSouthWest = ["Wessex", "Cheddar Reservoir", "Chew Valley Lake", "Blagdon Lake"];  // *South West Water(including SWB), Wessex water, Bristol Water
+    const areasSouthEast = ["Bewl Water", "Darwell", "Powdermill", "Weir Wood", "Ardingly", "Arlington", "Oxfordshire", "London", "Hanningfield and Abberton", "Bough Beech"];  // Southern water, South East Water, Thames Water, *Affinity Water*(Not sure), *Portsmouth Water, Essex and Suffolk Water(One company), SES
+    const areasEngland = [areasNorthWest, areasNorthEast, areasMidlands, areasSouthWest, areasSouthEast]
+
     // const areasNIreland: any[] = []
 
     // calls function when page loads
@@ -99,7 +111,28 @@ const SelectArea = () => {
                         </div>
 
                         {/* England */}
-                        
+                        <div className="collapse collapse-arrow bg-white border-2 border-black mt-4 shadow-xl">
+                            <input type="checkbox" />
+                            <div className="collapse-title text-xl font-medium text-black">England</div>
+                            <div className="collapse-content">
+                                {areasEnglandNames.map((area, index) => (
+
+                                    <div className="collapse collapse-arrow bg-white border-2 border-black mt-4 shadow-xl">
+                                    <input type="checkbox" />
+                                    <div className="collapse-title text-xl font-medium text-black">{area}</div>
+                                    <div className="collapse-content">
+                                        {areasEngland[index].map((a, i) => (
+                                            <button onClick={() => {if(a !== selectedArea) {console.log(a); console.log(i); getButtonData(a)}}} className={`btn mb-1 w-full text-black bg-blue-300 hover:bg-blue-500 ${
+                                                // Highlights clicked button
+                                                a === selectedArea ? "bg-blue-500" : "bg-blue-300"
+                                            }`}  key={i} value={a}>{a}</button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                ))}
+                            </div>
+                        </div>
 
                         {/* Wales */}
                         <div className="collapse collapse-arrow bg-white border-2 border-black mt-4 shadow-xl">
