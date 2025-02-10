@@ -13,12 +13,9 @@ const SelectArea = () => {
     
     const areasEnglandNames = ["North West", "North East", "Midlands", "South West", "South East"] 
 
-    // Have 2d array of eng sub areas e.g. array of midlands reservoirs inside sub areas area, then map in england dropdown menu
-    // List reservoirs instead of companies
-
     const areasNorthWest = ["Carlisle", "Haweswater & Thirlmere", "Pennine Sources", "Dee & Vyrnwy Reservoirs"];  // United utilities Water
     const areasNorthEast = ["Northumberland", "Weardale", "Teesdale", "Kielder Reservoir", "Yorkshire"];  // Northumbrian water, Yorkshire water, anh(Anglian Water)
-    const areasMidlands =  ["Blithfield Reservoir"];   // *Severn Trent Water(Could maybe say Severn Trent region?), SSC(South Staffordshire Water), Anglian Water
+    const areasMidlands =  ["Ogston", "Tittesworth", "Elan Valley", "Draycote", "Derwent Valley", "Carsington", "Dove", "Charnwood", "Bartley / Frankley", "Whitacre Combined", "Blithfield Reservoir"];   // Severn Trent Water, SSC(South Staffordshire Water), Anglian Water
     const areasSouthWest = ["Wessex", "Cheddar Reservoir", "Chew Valley Lake", "Blagdon Lake"];  // *South West Water(including SWB), Wessex water, Bristol Water
     const areasSouthEast = ["Bewl Water", "Darwell", "Powdermill", "Weir Wood", "Ardingly", "Arlington", "Oxfordshire", "London", "Hanningfield and Abberton", "Bough Beech"];  // Southern water, South East Water, Thames Water, *Affinity Water*(Not sure), *Portsmouth Water, Essex and Suffolk Water(One company), SES
     const areasEngland = [areasNorthWest, areasNorthEast, areasMidlands, areasSouthWest, areasSouthEast]
@@ -30,7 +27,7 @@ const SelectArea = () => {
         getData();
     }, []);
 
-    //should remove at somepoint
+    //should move at somepoint
     const getData = async () => {
         console.log("Area: " + selectedArea)
         
@@ -38,7 +35,6 @@ const SelectArea = () => {
             next:{revalidate: 10}
         });
         
-        // This error did get thrown so will have to deal with this
         if (!response.ok) {
             throw new Error('Failed to fetch area data');
           }
@@ -91,6 +87,7 @@ const SelectArea = () => {
                     {/* Sidebar content here */}
                         
                         {/* UK */}
+                        {/* Make Bigger */}
                         <button onClick={() => {if("UK" !== selectedArea) {console.log("UK"); getButtonData("UK")}}} className={`border-2 border-black mt-4 shadow-xl btn text-black bg-blue-300 hover:bg-blue-500 ${
                             // Highlights clicked button
                             "UK" === selectedArea ? "bg-blue-500" : "bg-blue-300"
