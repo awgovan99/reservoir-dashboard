@@ -15,9 +15,10 @@ export function CurrentLevel(params: {data: Data[]}) {
     }
 
     return(
-        <div className='card shadow-xl border-2 border-black bg-white mt-4 flex-1'>
+        <div className='card border-2 border-base-300 bg-white mt-4 flex-1'>
             <div className="card-body items-center text-center">
                 <h1 className='card-title'>Current Level</h1>
+                {/* <div className="radial-progress" style={{"--value":80}} role="progressbar">80%</div> */}
                 <p className='text-4xl'>{Math.round(curlvl) + "%"}</p>
             </div>
         </div>

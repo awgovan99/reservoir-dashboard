@@ -15,7 +15,7 @@ export function HighestLevel(params: {data: Data[]}) {
     }
 
     return(
-        <div className='card shadow-xl border-2 bg-white border-black mt-4 w-2/5 flex-1'>
+        <div className='card  border-2 bg-white border-base-300 mt-4 w-2/5 flex-1'>
             <div className="card-body items-center text-center">
                 <h1 className="card-title">Highest Level</h1>
                 <p className='text-4xl'>{Math.round(highestLvl) + "%"}</p>

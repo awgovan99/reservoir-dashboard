@@ -1,3 +1,4 @@
+import Header from "./components/Header";
 import SelectArea from "./components/SelectArea";
 
 // Your dashboard should be able to give users the ability to view the UKs water levels as 
@@ -7,6 +8,7 @@ import SelectArea from "./components/SelectArea";
 export default function Home() {
   return (
     <div>
+      <Header />
       <SelectArea />
     </div>
   );

@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react'
 import DisplayData from './DisplayData';
+import Header from './Header';
 
 const SelectArea = () => {
     const [selectedArea, setArea] = useState("UK"); // might remove this
@@ -71,19 +72,23 @@ const SelectArea = () => {
         <div className=''>
 
             <div className="drawer lg:drawer-open">
-
+                
                 <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-                <div className="drawer-content flex flex-col items-center justify-center">
+                {/* absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 */}
+                <div className="drawer-content flex flex-col items-center justify-center pt-20">
                     {/* Page content here */}
+                    {/* <Header /> */}
+
                     <label htmlFor="my-drawer-2" className="btn drawer-button lg:hidden bg-base-300 my-2">View Areas</label>
 
                     <DisplayData area={submittedArea} data={data} />
 
                 </div>
 
-                <div className="drawer-side">
+                <div className="drawer-side pt-16">
                     <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-                    <ul className="menu bg-base-300 text-base-content min-h-full w-80 p-4">
+                    {/* bg-base-300, border-r-2*/}
+                    <ul className="menu bg-blue-400 text-base-content min-h-full w-80 p-4 border-r-2 border-base-300">
                     {/* Sidebar content here */}
                         
                         {/* UK */}
