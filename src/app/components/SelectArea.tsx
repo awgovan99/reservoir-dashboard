@@ -1,11 +1,9 @@
 'use client';
 import React, { useState, useEffect } from 'react'
 import DisplayData from './DisplayData';
-import Header from './Header';
 
 const SelectArea = () => {
-    const [selectedArea, setArea] = useState("UK"); // might remove this
-    const [submittedArea, setSubmit] = useState("UK");
+    const [selectedArea, setArea] = useState("UK"); 
     const [data, setData] = useState([]);
 
     // UK should get avg lvl for whole country
@@ -21,32 +19,13 @@ const SelectArea = () => {
     const areasSouthEast = ["Bewl Water", "Darwell", "Powdermill", "Weir Wood", "Ardingly", "Arlington", "Oxfordshire", "London", "Hanningfield and Abberton", "Bough Beech"];  // Southern water, South East Water, Thames Water, *Affinity Water*(Not sure), *Portsmouth Water, Essex and Suffolk Water(One company), SES
     const areasEngland = [areasNorthWest, areasNorthEast, areasMidlands, areasSouthWest, areasSouthEast]
 
-    // const areasNIreland: any[] = []
-
     // calls function when page loads
     useEffect(() => {
-        getData();
+        getButtonData("UK");
     }, []);
 
     //should move at somepoint
-    const getData = async () => {
-        console.log("Area: " + selectedArea)
-        
-        const response = await fetch(`/api/${encodeURIComponent(selectedArea)}`,{
-            next:{revalidate: 10}
-        });
-        
-        if (!response.ok) {
-            throw new Error('Failed to fetch area data');
-          }
-          
-        const data = await response.json();  
-        
-        console.log(data.data); 
-        setData(data.data)
-        setSubmit(selectedArea)
-    }
-
+    // If move this, should probably make return data
     const getButtonData = async (area: string) => {
         console.log("Button Area: " + area)
         
@@ -65,7 +44,6 @@ const SelectArea = () => {
         console.log(data.data); 
         setData(data.data)
         setArea(area)
-        setSubmit(area)
     }
 
     return (
@@ -81,7 +59,7 @@ const SelectArea = () => {
 
                     <label htmlFor="my-drawer-2" className="btn drawer-button lg:hidden bg-base-300 my-2">View Areas</label>
 
-                    <DisplayData area={submittedArea} data={data} />
+                    <DisplayData area={selectedArea} data={data} />
 
                 </div>
 
@@ -149,10 +127,7 @@ const SelectArea = () => {
                                 ))}
                             </div>
                         </div>
-
-                        {/* Northern Ireland */}
                         
-
                     </ul>
                 </div>
             </div>
