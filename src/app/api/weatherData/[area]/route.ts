@@ -31,7 +31,8 @@ for (let key in areaCoords) {
     longitudes.push(areaCoords[key][1]);
 }
 
-
+// Do 1 call when page loads so can take avg of all areas for UK
+// Means don't have do call from openmeteo again
 const weatherParams = {
     "latitude": latitudes,
 	"longitude": longitudes,
@@ -86,24 +87,38 @@ export async function GET(req: NextRequest, { params }: Props) {
     let totalRainfall = 0;
     let totalEvaporation = 0;
 
-    let res = {netWaterInput: 0, totalRainfall: 0, totalEvaporation: 0}
+    // let res = {netWaterInput: 0, totalRainfall: 0, totalEvaporation: 0}
+    let res: {}
 
     // if area == UK then take avg of all weatherData
     if(area === "UK") {
-        // Loops through each area
+        // For weekly forecast data
+        // Need to loop through each area
+        let dailyRainfall = [0,0,0,0,0,0,0];
+        let dailyEvaporation = [0,0,0,0,0,0,0];
         for(let i = 0; i < weatherData.length; i++) {
-            // Gets sum of weekly forecast data from current area
+            // Loop through each day from current area
             for(let j = 0; j < weatherData[i].daily.rainSum.length; j++) {
-                totalRainfall += weatherData[i].daily.rainSum[j]
-                totalEvaporation += weatherData[i].daily.et0FaoEvapotranspiration[j]
+                // totalRainfall += weatherData[i].daily.rainSum[j]
+                // totalEvaporation += weatherData[i].daily.et0FaoEvapotranspiration[j]
+                dailyRainfall[j] += weatherData[i].daily.rainSum[j]
+                dailyEvaporation[j] += weatherData[i].daily.et0FaoEvapotranspiration[j]
             }
         }
         // Gets averages of total Rainfall and Evaporation accross the UK
-        const avgRailfall = totalRainfall / weatherData.length;
-        const avgEvaporation = totalEvaporation / weatherData.length;
-        const netWaterInput = avgRailfall - avgEvaporation;
+        // const avgRailfall = totalRainfall / weatherData.length;
+        // const avgEvaporation = totalEvaporation / weatherData.length;
+        // const netWaterInput = avgRailfall - avgEvaporation;
 
-        res = {netWaterInput: netWaterInput, totalRainfall: avgRailfall, totalEvaporation: avgEvaporation}
+        // res = {netWaterInput: netWaterInput, totalRainfall: avgRailfall, totalEvaporation: avgEvaporation}
+
+        // Get avgs of days in all areas
+        for(let i = 0; i < dailyRainfall.length; i++) {
+            dailyRainfall[i] = dailyRainfall[i] / weatherData.length;
+            dailyEvaporation[i] = dailyEvaporation[i] / weatherData.length;
+        }
+
+        res = {Rainfall: dailyRainfall, Evaporation: dailyEvaporation}
     }
     else {
         // Find index of area in areaCoords
@@ -113,15 +128,33 @@ export async function GET(req: NextRequest, { params }: Props) {
         const areaWeatherData = weatherData[areaIndex];
 
         // Gets sum of weekly forecast data for current area
+        // for(let i = 0; i < areaWeatherData.daily.rainSum.length; i++) {
+        //     totalRainfall += areaWeatherData.daily.rainSum[i]
+        //     totalEvaporation += areaWeatherData.daily.et0FaoEvapotranspiration[i]
+        //     // If returning weekly then remove above and then:
+        //     // res will be array of {}
+        //     // res.push({netWaterInput: netWaterInput, totalRainfall: totalRainfall, totalEvaporation: totalEvaporation})
+        //     // Not sure if do netWaterInput or do it later in WeatherData.tsx
+        // }
+
+        let dailyRainfall = [0,0,0,0,0,0,0];
+        let dailyEvaporation = [0,0,0,0,0,0,0];
         for(let i = 0; i < areaWeatherData.daily.rainSum.length; i++) {
-            totalRainfall += areaWeatherData.daily.rainSum[i]
-            totalEvaporation += areaWeatherData.daily.et0FaoEvapotranspiration[i]
+            // Loop through each day from current area
+            dailyRainfall[i] += areaWeatherData.daily.rainSum[i]
+            dailyEvaporation[i] += areaWeatherData.daily.et0FaoEvapotranspiration[i]
         }
 
-        const netWaterInput = totalRainfall - totalEvaporation;
+        // Sends weekly data to page for use in graph
+        res = {Rainfall: dailyRainfall, Evaporation: dailyEvaporation}
+        // If do this will need to calculate netWaterInput in WeatherData.tsx
 
-        res = {netWaterInput: netWaterInput, totalRainfall: totalRainfall, totalEvaporation: totalEvaporation}
+        // const netWaterInput = totalRainfall - totalEvaporation;
+
+        // res = {netWaterInput: netWaterInput, totalRainfall: totalRainfall, totalEvaporation: totalEvaporation}
     }
+
+    console.log(res)
 
     return NextResponse.json(res)
     

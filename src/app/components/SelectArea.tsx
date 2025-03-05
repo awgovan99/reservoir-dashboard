@@ -3,14 +3,10 @@ import React, { useState, useEffect } from 'react'
 import DisplayData from './DisplayData';
 import WeatherData from './WeatherData';
 
-// export const areasScotland = ["North Scotland", "West Scotland", "East Scotland", "South Scotland"]
-// // Could move the rest up here and export so weather api can use to get coords without needing to redefine arrays
-// export const areasNorthWest = ["Carlisle", "Haweswater & Thirlmere", "Pennine Sources", "Dee & Vyrnwy Reservoirs"];
-
 const SelectArea = () => {
     const [selectedArea, setArea] = useState("UK"); 
     const [data, setData] = useState([]);
-    const [weatherData, setWeatherData] = useState({netWaterInput: 0, totalRainfall: 0, totalEvaporation: 0});
+    const [weatherData, setWeatherData] = useState({Rainfall:[], Evaporation:[]});
 
     // UK should get avg lvl for whole country
     const areasScotland = ["North Scotland", "West Scotland", "East Scotland", "South Scotland"]
@@ -50,10 +46,6 @@ const SelectArea = () => {
         const response = await fetch(`/api/weatherData/${encodeURIComponent(area)}`);
         const weatherData = await response.json();
 
-        console.log("totalRainfall: " + weatherData.totalRainfall)
-        console.log("totalEvaporation: " + weatherData.totalEvaporation)
-        console.log("netWaterInput: " + weatherData.netWaterInput)
-
         setWeatherData(weatherData)
     }
 
@@ -81,9 +73,9 @@ const SelectArea = () => {
                 
                 <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
 
-                <div className="drawer-content flex justify-between pt-24 pb-8 mx-8">
+                <div className="drawer-content flex pt-24 pb-8 mx-8">
                     {/* Page content here */}
-                    
+
                     {/* <label htmlFor="my-drawer-2" className="btn drawer-button lg:hidden bg-base-300">View Areas</label> */}
 
                     <DisplayData area={selectedArea} data={data} />
