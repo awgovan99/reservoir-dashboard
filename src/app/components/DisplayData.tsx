@@ -13,7 +13,7 @@ interface Data {
 
 const DisplayData = ({ area, data }: { area: string, data: Data[] } ) => {
   return (
-    <div className='w-3/4 mx-10'>
+    <div className='w-4/6 h-full'>
         {/* Graph */}
         <WaterLevelGraph area={area} data={data} />
         

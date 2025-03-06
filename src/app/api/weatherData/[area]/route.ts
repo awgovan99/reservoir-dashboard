@@ -36,7 +36,7 @@ for (let key in areaCoords) {
 const weatherParams = {
     "latitude": latitudes,
 	"longitude": longitudes,
-	"daily": ["rain_sum", "et0_fao_evapotranspiration"],
+	"daily": ["precipitation_sum", "et0_fao_evapotranspiration"],
 	"timezone": "GMT"
 };
 const url = "https://api.open-meteo.com/v1/forecast";
@@ -51,7 +51,7 @@ const range = (start: number, stop: number, step: number) =>
 interface apiWeatherData {
     daily: {
         time: Date[];
-        rainSum: Float32Array;
+        precipitation_sum: Float32Array;
         et0FaoEvapotranspiration: Float32Array;
     };
 }
@@ -64,7 +64,7 @@ for(let i = 0; i < responses.length; i++) {
             time: range(Number(daily.time()), Number(daily.timeEnd()), daily.interval()).map(
                 (t) => new Date((t + responses[i].utcOffsetSeconds()) * 1000)
             ),
-            rainSum: daily.variables(0)!.valuesArray()!,
+            precipitation_sum: daily.variables(0)!.valuesArray()!,
             et0FaoEvapotranspiration: daily.variables(1)!.valuesArray()!,
         },
     })
@@ -77,6 +77,9 @@ type Props = {
     }>
   };
 
+// Helps convert month from number to string
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 // Could return weekly forecast data aswell inorder to plot graphs
 export async function GET(req: NextRequest, { params }: Props) {
     const resolvedParams = await params
@@ -84,41 +87,36 @@ export async function GET(req: NextRequest, { params }: Props) {
 
     console.log("Weather api test")
 
-    let totalRainfall = 0;
-    let totalEvaporation = 0;
+    
+    let dailyPrecipitation = [0,0,0,0,0,0,0];
+    let dailyEvaporation = [0,0,0,0,0,0,0];
+    let dates = [];
 
-    // let res = {netWaterInput: 0, totalRainfall: 0, totalEvaporation: 0}
     let res: {}
 
     // if area == UK then take avg of all weatherData
     if(area === "UK") {
         // For weekly forecast data
         // Need to loop through each area
-        let dailyRainfall = [0,0,0,0,0,0,0];
-        let dailyEvaporation = [0,0,0,0,0,0,0];
+        
         for(let i = 0; i < weatherData.length; i++) {
             // Loop through each day from current area
-            for(let j = 0; j < weatherData[i].daily.rainSum.length; j++) {
-                // totalRainfall += weatherData[i].daily.rainSum[j]
-                // totalEvaporation += weatherData[i].daily.et0FaoEvapotranspiration[j]
-                dailyRainfall[j] += weatherData[i].daily.rainSum[j]
+            for(let j = 0; j < weatherData[i].daily.precipitation_sum.length; j++) {
+                dailyPrecipitation[j] += weatherData[i].daily.precipitation_sum[j]
                 dailyEvaporation[j] += weatherData[i].daily.et0FaoEvapotranspiration[j]
             }
         }
-        // Gets averages of total Rainfall and Evaporation accross the UK
-        // const avgRailfall = totalRainfall / weatherData.length;
-        // const avgEvaporation = totalEvaporation / weatherData.length;
-        // const netWaterInput = avgRailfall - avgEvaporation;
-
-        // res = {netWaterInput: netWaterInput, totalRainfall: avgRailfall, totalEvaporation: avgEvaporation}
 
         // Get avgs of days in all areas
-        for(let i = 0; i < dailyRainfall.length; i++) {
-            dailyRainfall[i] = dailyRainfall[i] / weatherData.length;
+        for(let i = 0; i < dailyPrecipitation.length; i++) {
+            dailyPrecipitation[i] = dailyPrecipitation[i] / weatherData.length;
             dailyEvaporation[i] = dailyEvaporation[i] / weatherData.length;
+            // Gets dates
+            let month = months[weatherData[0].daily.time[i].getMonth()]
+            dates.push(weatherData[0].daily.time[i].getDate() + " " + month)
         }
 
-        res = {Rainfall: dailyRainfall, Evaporation: dailyEvaporation}
+        res = {Precipitation: dailyPrecipitation, Evaporation: dailyEvaporation, Dates: dates}
     }
     else {
         // Find index of area in areaCoords
@@ -127,31 +125,22 @@ export async function GET(req: NextRequest, { params }: Props) {
 
         const areaWeatherData = weatherData[areaIndex];
 
-        // Gets sum of weekly forecast data for current area
-        // for(let i = 0; i < areaWeatherData.daily.rainSum.length; i++) {
-        //     totalRainfall += areaWeatherData.daily.rainSum[i]
-        //     totalEvaporation += areaWeatherData.daily.et0FaoEvapotranspiration[i]
-        //     // If returning weekly then remove above and then:
-        //     // res will be array of {}
-        //     // res.push({netWaterInput: netWaterInput, totalRainfall: totalRainfall, totalEvaporation: totalEvaporation})
-        //     // Not sure if do netWaterInput or do it later in WeatherData.tsx
-        // }
 
-        let dailyRainfall = [0,0,0,0,0,0,0];
-        let dailyEvaporation = [0,0,0,0,0,0,0];
-        for(let i = 0; i < areaWeatherData.daily.rainSum.length; i++) {
+        for(let i = 0; i < areaWeatherData.daily.precipitation_sum.length; i++) {
             // Loop through each day from current area
-            dailyRainfall[i] += areaWeatherData.daily.rainSum[i]
+            dailyPrecipitation[i] += areaWeatherData.daily.precipitation_sum[i]
             dailyEvaporation[i] += areaWeatherData.daily.et0FaoEvapotranspiration[i]
+            // Gets dates
+            let month = months[areaWeatherData.daily.time[i].getMonth()]
+            dates.push(areaWeatherData.daily.time[i].getDate() + " " + month)
         }
 
+        console.log("Date: " + areaWeatherData.daily.time[0].getDate())
+        console.log("Month: " + areaWeatherData.daily.time[0].getMonth())
+
+
         // Sends weekly data to page for use in graph
-        res = {Rainfall: dailyRainfall, Evaporation: dailyEvaporation}
-        // If do this will need to calculate netWaterInput in WeatherData.tsx
-
-        // const netWaterInput = totalRainfall - totalEvaporation;
-
-        // res = {netWaterInput: netWaterInput, totalRainfall: totalRainfall, totalEvaporation: totalEvaporation}
+        res = {Precipitation: dailyPrecipitation, Evaporation: dailyEvaporation, Dates: dates}
     }
 
     console.log(res)

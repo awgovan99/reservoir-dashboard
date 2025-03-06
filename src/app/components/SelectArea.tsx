@@ -6,7 +6,7 @@ import WeatherData from './WeatherData';
 const SelectArea = () => {
     const [selectedArea, setArea] = useState("UK"); 
     const [data, setData] = useState([]);
-    const [weatherData, setWeatherData] = useState({Rainfall:[], Evaporation:[]});
+    const [weatherData, setWeatherData] = useState({Precipitation:[], Evaporation:[], Dates: []});
 
     // UK should get avg lvl for whole country
     const areasScotland = ["North Scotland", "West Scotland", "East Scotland", "South Scotland"]
@@ -94,7 +94,7 @@ const SelectArea = () => {
 
                         {/* UK */}
                         {/* Make Bigger */}
-                        <button onClick={() => {if("UK" !== selectedArea) {console.log("UK"); setArea("UK");/* getButtonData("UK") */}}} className={`border-2 border-black mt-4 shadow-xl btn text-black bg-blue-300 hover:bg-blue-500 ${
+                        <button onClick={() => {if("UK" !== selectedArea) {console.log("UK"); setArea("UK");}}} className={`border-2 border-black mt-4 shadow-xl btn text-black bg-blue-300 hover:bg-blue-500 ${
                             // Highlights clicked button
                             "UK" === selectedArea ? "bg-blue-500" : "bg-blue-300"
                         }`}>UK</button>
@@ -105,7 +105,7 @@ const SelectArea = () => {
                             <div className="collapse-title text-xl font-medium text-black">Scotland</div>
                             <div className="collapse-content">
                                 {areasScotland.map((area, index) => (
-                                    <button onClick={() => {if(area !== selectedArea) {console.log(area); setArea(area);/* getButtonData(area) */}}} className={`btn mb-1 w-full text-black bg-blue-300 hover:bg-blue-500 ${
+                                    <button onClick={() => {if(area !== selectedArea) {console.log(area); setArea(area);}}} className={`btn mb-1 w-full text-black bg-blue-300 hover:bg-blue-500 ${
                                         // Highlights clicked button
                                         area === selectedArea ? "bg-blue-500" : "bg-blue-300"
                                     }`}  key={index} value={area}>{area}</button>
@@ -125,7 +125,7 @@ const SelectArea = () => {
                                     <div className="collapse-title text-xl font-medium text-black">{area}</div>
                                     <div className="collapse-content">
                                         {areasEngland[index].map((a, i) => (
-                                            <button onClick={() => {if(a !== selectedArea) {console.log(a); console.log(i); setArea(a);/*  getButtonData(a) */}}} className={`btn mb-1 w-full text-black bg-blue-300 hover:bg-blue-500 ${
+                                            <button onClick={() => {if(a !== selectedArea) {console.log(a); console.log(i); setArea(a);}}} className={`btn mb-1 w-full text-black bg-blue-300 hover:bg-blue-500 ${
                                                 // Highlights clicked button
                                                 a === selectedArea ? "bg-blue-500" : "bg-blue-300"
                                             }`}  key={i} value={a}>{a}</button>
@@ -143,7 +143,7 @@ const SelectArea = () => {
                             <div className="collapse-title text-xl font-medium text-black">Wales</div>
                             <div className="collapse-content">
                                 {areasWales.map((area, index) => (
-                                    <button onClick={() => {if(area !== selectedArea) {console.log(area); setArea(area);/*  getButtonData(area) */}}} className={`btn mb-1 w-full text-black bg-blue-300 hover:bg-blue-500 ${
+                                    <button onClick={() => {if(area !== selectedArea) {console.log(area); setArea(area);}}} className={`btn mb-1 w-full text-black bg-blue-300 hover:bg-blue-500 ${
                                         // Highlights clicked button
                                         area === selectedArea ? "bg-blue-500" : "bg-blue-300"
                                     }`} key={index} value={area}>{area}</button>
