@@ -6,7 +6,7 @@ import WeatherData from './WeatherData';
 const SelectArea = () => {
     const [selectedArea, setArea] = useState("UK"); 
     const [data, setData] = useState([]);
-    const [weatherData, setWeatherData] = useState({Precipitation:[], Evaporation:[], Dates: []});
+    const [weatherData, setWeatherData] = useState({Precipitation:[], Evaporation:[], Dates: [], Temperature:[], WindSpeed: [],});
 
     // UK should get avg lvl for whole country
     const areasScotland = ["North Scotland", "West Scotland", "East Scotland", "South Scotland"]

@@ -36,7 +36,7 @@ for (let key in areaCoords) {
 const weatherParams = {
     "latitude": latitudes,
 	"longitude": longitudes,
-	"daily": ["precipitation_sum", "et0_fao_evapotranspiration"],
+	"daily": ["weather_code", "temperature_2m_max", "precipitation_sum", "wind_speed_10m_max", "et0_fao_evapotranspiration"],
 	"timezone": "GMT"
 };
 const url = "https://api.open-meteo.com/v1/forecast";
@@ -51,7 +51,10 @@ const range = (start: number, stop: number, step: number) =>
 interface apiWeatherData {
     daily: {
         time: Date[];
+        weatherCode: Float32Array;
+        temperature2mMax: Float32Array
         precipitation_sum: Float32Array;
+        windSpeed10mMax: Float32Array;
         et0FaoEvapotranspiration: Float32Array;
     };
 }
@@ -64,8 +67,11 @@ for(let i = 0; i < responses.length; i++) {
             time: range(Number(daily.time()), Number(daily.timeEnd()), daily.interval()).map(
                 (t) => new Date((t + responses[i].utcOffsetSeconds()) * 1000)
             ),
-            precipitation_sum: daily.variables(0)!.valuesArray()!,
-            et0FaoEvapotranspiration: daily.variables(1)!.valuesArray()!,
+            weatherCode: daily.variables(0)!.valuesArray()!,
+            temperature2mMax: daily.variables(1)!.valuesArray()!,
+            precipitation_sum: daily.variables(2)!.valuesArray()!,
+            windSpeed10mMax: daily.variables(3)!.valuesArray()!,
+            et0FaoEvapotranspiration: daily.variables(4)!.valuesArray()!,
         },
     })
 }
@@ -91,6 +97,9 @@ export async function GET(req: NextRequest, { params }: Props) {
     let dailyPrecipitation = [0,0,0,0,0,0,0];
     let dailyEvaporation = [0,0,0,0,0,0,0];
     let dates = [];
+    // let weatherCode = [0,0,0,0,0,0,0];
+    let dailyTemperature = [0,0,0,0,0,0,0];
+    let dailyWindSpeed = [0,0,0,0,0,0,0];
 
     let res: {}
 
@@ -104,6 +113,8 @@ export async function GET(req: NextRequest, { params }: Props) {
             for(let j = 0; j < weatherData[i].daily.precipitation_sum.length; j++) {
                 dailyPrecipitation[j] += weatherData[i].daily.precipitation_sum[j]
                 dailyEvaporation[j] += weatherData[i].daily.et0FaoEvapotranspiration[j]
+                dailyTemperature[j] += weatherData[i].daily.temperature2mMax[j]
+                dailyWindSpeed[j] += weatherData[i].daily.windSpeed10mMax[j]
             }
         }
 
@@ -111,12 +122,22 @@ export async function GET(req: NextRequest, { params }: Props) {
         for(let i = 0; i < dailyPrecipitation.length; i++) {
             dailyPrecipitation[i] = dailyPrecipitation[i] / weatherData.length;
             dailyEvaporation[i] = dailyEvaporation[i] / weatherData.length;
+            dailyTemperature[i] = dailyTemperature[i] / weatherData.length;
+            dailyWindSpeed[i] = dailyWindSpeed[i] / weatherData.length;
+
             // Gets dates
             let month = months[weatherData[0].daily.time[i].getMonth()]
             dates.push(weatherData[0].daily.time[i].getDate() + " " + month)
         }
 
-        res = {Precipitation: dailyPrecipitation, Evaporation: dailyEvaporation, Dates: dates}
+        res = {
+            Precipitation: dailyPrecipitation, 
+            Evaporation: dailyEvaporation, 
+            Dates: dates,
+            // WeatherCode: weatherCode,
+            Temperature:dailyTemperature,
+            WindSpeed: dailyWindSpeed,
+        }
     }
     else {
         // Find index of area in areaCoords
@@ -128,24 +149,48 @@ export async function GET(req: NextRequest, { params }: Props) {
 
         for(let i = 0; i < areaWeatherData.daily.precipitation_sum.length; i++) {
             // Loop through each day from current area
-            dailyPrecipitation[i] += areaWeatherData.daily.precipitation_sum[i]
-            dailyEvaporation[i] += areaWeatherData.daily.et0FaoEvapotranspiration[i]
+            // dailyPrecipitation[i] += areaWeatherData.daily.precipitation_sum[i]
+            // dailyEvaporation[i] += areaWeatherData.daily.et0FaoEvapotranspiration[i]
             // Gets dates
             let month = months[areaWeatherData.daily.time[i].getMonth()]
             dates.push(areaWeatherData.daily.time[i].getDate() + " " + month)
         }
+
+        dailyPrecipitation = arrayValues(areaWeatherData.daily.precipitation_sum)
+        dailyEvaporation = arrayValues(areaWeatherData.daily.et0FaoEvapotranspiration)
+        // weatherCode = arrayValues(areaWeatherData.daily.weatherCode)
+        dailyTemperature = arrayValues(areaWeatherData.daily.temperature2mMax)
+        dailyWindSpeed = arrayValues(areaWeatherData.daily.windSpeed10mMax)
 
         console.log("Date: " + areaWeatherData.daily.time[0].getDate())
         console.log("Month: " + areaWeatherData.daily.time[0].getMonth())
 
 
         // Sends weekly data to page for use in graph
-        res = {Precipitation: dailyPrecipitation, Evaporation: dailyEvaporation, Dates: dates}
+        res = {
+            Precipitation: dailyPrecipitation, 
+            Evaporation: dailyEvaporation, 
+            Dates: dates,
+            // WeatherCode: weatherCode,
+            Temperature: dailyTemperature,
+            WindSpeed: dailyWindSpeed,
+        }
     }
 
     console.log(res)
 
     return NextResponse.json(res)
     
+}
+
+const arrayValues = (values: Float32Array) => {
+    let valuesArray: number[] = [0,0,0,0,0,0,0]
+
+    for(let i = 0; i < values.length; i++) {
+        // Loop through each day from current area
+        valuesArray[i] += values[i]
+    }
+
+    return valuesArray;
 }
 

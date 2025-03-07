@@ -54,13 +54,14 @@ export default function WeatherGraph({ weatherData }: { weatherData: WeatherData
 
     return (
         <div className='w-full'>
-            <div className="flex-grow w-full h-64 "> 
+            {/* <h1>Weekly Precipitation vs. Evapotranspiration</h1> */}
+            <div className="flex-grow w-full h-52 "> 
                 <Bar data={chartData} options={chartOptions} />
             </div>
-            <div className="text-sm">
+            {/* <div className="text-xs">
                 <p><strong>Precipitation:</strong> Refers to the total amount of water gained through rainfall, showers, and snowfall.</p>
                 <p><strong>Evapotranspiration:</strong> Water loss through evaporation and transpiration (water vapor released by plants).</p>
-            </div>
+            </div> */}
         </div>
     );
 }
