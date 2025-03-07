@@ -183,7 +183,7 @@ export async function GET(req: NextRequest, { params }: Props) {
     
 }
 
-const arrayValues = (values: Float32Array) => {
+export const arrayValues = (values: Float32Array): number[] => {
     let valuesArray: number[] = [0,0,0,0,0,0,0]
 
     for(let i = 0; i < values.length; i++) {
