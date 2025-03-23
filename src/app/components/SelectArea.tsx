@@ -29,10 +29,11 @@ const SelectArea = () => {
 
     useEffect(() => {
         console.log("Getting Data...")
-        getButtonData(selectedArea);
+        getReservoirData(selectedArea);
         getWeatherData(selectedArea);
     }, [selectedArea]);
 
+    // Maybe make functions return the api data, then set the data in the useEffect
     const getWeatherData = async (area: string) => {
         // Purpose is to limit number of api calls by reducing amount of coordinates needed
         if(areasNorthWest.includes(area)) area = "North West England";
@@ -51,15 +52,15 @@ const SelectArea = () => {
 
     //should move at somepoint
     // If move this, should probably make return data
-    const getButtonData = async (area: string) => {
-        console.log("Button Area: " + area)
-        
+    const getReservoirData = async (area: string) => {
+        console.log("Reservoir Area: " + area)
+
         const response = await fetch(`/api/selectArea/${encodeURIComponent(area)}`);
         
         if (!response.ok) {
             throw new Error('Failed to fetch area data');
-          }
-          
+        }
+        
         const data = await response.json();  
         
         console.log(data.data); 
@@ -120,7 +121,7 @@ const SelectArea = () => {
                             <div className="collapse-content">
                                 {areasEnglandNames.map((area, index) => (
 
-                                    <div className="collapse collapse-arrow bg-white border-2 border-black mt-4 shadow-xl">
+                                    <div className="collapse collapse-arrow bg-white border-2 border-black mt-4 shadow-xl"  key={index}>
                                     <input type="checkbox" />
                                     <div className="collapse-title text-xl font-medium text-black">{area}</div>
                                     <div className="collapse-content">

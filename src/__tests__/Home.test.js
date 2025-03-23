@@ -85,3 +85,51 @@ describe("getLowestLevel", () => {
     expect(result).toBe(10);
   });
 });
+
+// Tests for ChangeFromLast()
+describe("getChangeFromLast", () => {
+  it("should return 0 if the array has fewer than 2 elements", () => {
+    expect(getChangeFromLast([])).toBe(0);
+    const data = [{ currentlvl: 5 }];
+    expect(getChangeFromLast(data)).toBe(0);
+  });
+
+  it("should return the difference between the last two elements when there are exactly two elements", () => {
+    const data = [
+      { currentlvl: 10 },
+      { currentlvl: 15 },
+    ];
+    const result = getChangeFromLast(data);
+    expect(result).toBe(5); 
+  });
+
+  it("should return the change from the last two elements when there are more than two", () => {
+    const data = [
+      { currentlvl: 10 },
+      { currentlvl: 15 },
+      { currentlvl: 20 },
+    ];
+    const result = getChangeFromLast(data);
+    expect(result).toBe(5); 
+  });
+
+  it("should return 0 when the last two elements have the same water level", () => {
+    const data = [
+      { currentlvl: 10 },
+      { currentlvl: 15 },
+      { currentlvl: 15 },
+    ];
+    const result = getChangeFromLast(data);
+    expect(result).toBe(0);
+  });
+
+  it("should return a negative number when the last element has a lower water level than the second last element", () => {
+    const data = [
+      { currentlvl: 10 },
+      { currentlvl: 15 },
+      { currentlvl: 5 },
+    ];
+    const result = getChangeFromLast(data);
+    expect(result).toBe(-10); 
+  });
+});
