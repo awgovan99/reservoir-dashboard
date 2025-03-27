@@ -8,8 +8,8 @@ jest.mock("@/src/app/components/WaterLevelGraph", () => ({
     WaterLevelGraph: jest.fn(() => <div>WaterLevelGraph Mock</div>),
 }));
 
-
-describe("SelectArea Component", () => {
+// Reservoir level api calls test
+describe("SelectArea fetch", () => {
 
     // Mocks fetch requests
     beforeEach(() => {
@@ -21,7 +21,7 @@ describe("SelectArea Component", () => {
         );
     });
 
-    // Reset mock calls
+    // Resets mock calls
     afterEach(() => {
         jest.clearAllMocks();
     });
@@ -39,7 +39,7 @@ describe("SelectArea Component", () => {
         
         // Click button
         fireEvent.click(screen.getByText("North Scotland"));
-        await waitFor(() => expect(fetch).toHaveBeenCalledWith(`/api/weatherData/${encodeURIComponent("North Scotland")}`));
+        await waitFor(() => expect(fetch).toHaveBeenCalledWith(`/api/selectArea/${encodeURIComponent("North Scotland")}`));
     });
 
     it("Does not fetch data when the selected area is clicked again", async () => {
@@ -51,25 +51,22 @@ describe("SelectArea Component", () => {
         fireEvent.click(screen.getByText("North Scotland"));
     
         // Check that api call is made once for the selected area
-        await waitFor(() => expect(fetch).toHaveBeenCalledWith(`/api/weatherData/${encodeURIComponent("North Scotland")}`));
+        await waitFor(() => expect(fetch).toHaveBeenCalledWith(`/api/selectArea/${encodeURIComponent("North Scotland")}`));
         
         // Reset mock calls
         jest.clearAllMocks();
 
         fireEvent.click(screen.getByText("North Scotland"));
 
-         // Check that api call is NOT made agian for the selected area
-        await waitFor(() => expect(fetch).not.toHaveBeenCalledWith(`/api/weatherData/${encodeURIComponent("North Scotland")}`));
+         // Check that api call is NOT made agian for the same selected area
+        await waitFor(() => expect(fetch).not.toHaveBeenCalledWith(`/api/selectArea/${encodeURIComponent("North Scotland")}`));
     });
 
     it("displays reservoir level data correctly when the data is empty", async () => {
         render(<SelectArea />);
-
-        // Find all elements with the text "0%" and check that there are exactly 4 of them
-        const zeroPercentElements = screen.getAllByText('0%');
         
         // Assert that there are exactly 4 elements displaying "0%"
-        await waitFor(() => expect(zeroPercentElements).toHaveLength(4));
+        await waitFor(() => expect(screen.getAllByText('0%')).toHaveLength(4));
     });
 
     // Could write test that check that the mock data is being used correctly by the components

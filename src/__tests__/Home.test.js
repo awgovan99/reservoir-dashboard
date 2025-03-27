@@ -1,7 +1,9 @@
-import { getCurrentLevel } from "@/src/app/components/CurrentLevel";
-import { getHighestLevel } from "@/src/app/components/HighestLevel";
-import { getLowestLevel } from "@/src/app/components/LowestLevel";
-import { getChangeFromLast } from "@/src/app/components/ChangeFromLast";
+// import { getCurrentLevel } from "@/src/app/components/CurrentLevel";
+// import { getHighestLevel } from "@/src/app/components/HighestLevel";
+// import { getLowestLevel } from "@/src/app/components/LowestLevel";
+// import { getChangeFromLast } from "@/src/app/components/ChangeFromLast";
+import { getCurrentLevel, getHighestLevel, getLowestLevel, getChangeFromLast } from "@/src/app/components/DisplayData";
+import { getTotal, getPrediction } from "@/src/app/components/WeatherData";
 
 // Tests for getCurrentLevel()
 describe("getCurrentLevel", () => {
@@ -132,4 +134,58 @@ describe("getChangeFromLast", () => {
     const result = getChangeFromLast(data);
     expect(result).toBe(-10); 
   });
+});
+
+// Tests for getTotal()
+describe("getTotal", () => {
+
+  it("returns the sum of all numbers in the array", () => {
+    expect(getTotal([1, 2, 3, 4, 5])).toBe(15);
+  });
+
+  it("returns 0 for an empty array", () => {
+      expect(getTotal([])).toBe(0);
+  });
+
+  it("works with decimal numbers", () => {
+      expect(getTotal([1.5, 2.5, 3.5])).toBe(7.5);
+  });
+
+  it("works with a single-element array", () => {
+      expect(getTotal([42])).toBe(42);
+  });
+  
+});
+
+// Tests for getPrediction()
+describe("getPrediction", () => {
+
+  it("returns 'increase' when number is greater than 20", () => {
+    expect(getPrediction(25)).toBe("increase a lot");
+    expect(getPrediction(100)).toBe("increase a lot");
+  });
+
+  it("returns 'increase slightly' when number is between 6 and 20", () => {
+      expect(getPrediction(10)).toBe("increase slightly");
+      expect(getPrediction(6)).toBe("increase slightly");
+      expect(getPrediction(20)).toBe("increase slightly");
+  });
+
+  it("returns 'no change' when number is between -5 and 5", () => {
+      expect(getPrediction(0)).toBe("not change significantly");
+      expect(getPrediction(5)).toBe("not change significantly");
+      expect(getPrediction(-5)).toBe("not change significantly");
+  });
+
+  it("returns 'decrease slightly' when number is between -6 and -20", () => {
+      expect(getPrediction(-10)).toBe("decrease slightly");
+      expect(getPrediction(-6)).toBe("decrease slightly");
+      expect(getPrediction(-19)).toBe("decrease slightly");
+  });
+
+  it("returns 'decrease' when number is less than -20", () => {
+      expect(getPrediction(-25)).toBe("decrease a lot");
+      expect(getPrediction(-100)).toBe("decrease a lot");
+  });
+  
 });
