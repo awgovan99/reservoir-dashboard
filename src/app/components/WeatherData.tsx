@@ -15,37 +15,15 @@ const WeatherData = ({ area, weatherData }: { area: string, weatherData: Weather
     let totalPrecipitation = 0;
     let totalEvaporation = 0;
 
-    // console.log("Rainfall.length: " + weatherData.Precipitation.length)
-    // console.log("Rainfall: " + weatherData.Precipitation)
-    // console.log("Evaporation.length: " + weatherData.Evaporation.length)
-    // console.log("Evaporation: " + weatherData.Evaporation)
-    // console.log("Dates.length: " + weatherData.Dates.length)
-    // console.log("Dates: " + weatherData.Dates)
-    console.log("Temperature: " + weatherData.Temperature)
-    console.log("WindSpeed: " + weatherData.WindSpeed)
-
-    for(let i = 0; i < weatherData.Precipitation.length; i++) {
-        totalPrecipitation += weatherData.Precipitation[i]
-        totalEvaporation += weatherData.Evaporation[i]
-    }
-
-    totalPrecipitation = Math.round(totalPrecipitation * 100) / 100 // rounds to 2dp's
-    totalEvaporation = Math.round(totalEvaporation * 100) / 100
+    totalPrecipitation = getTotal(weatherData.Precipitation);
+    totalEvaporation = getTotal(weatherData.Evaporation);
+    // Could maybe include wind and temp in calc for netWaterInput
     const netWaterInput = Math.round((totalPrecipitation - totalEvaporation) * 100) / 100
 
-    let prediction = "not change significantly"; 
-    if (netWaterInput > 20) prediction = "increase a lot";
-    else if (netWaterInput > 5) prediction = "increase slightly";
-    else if (netWaterInput < -5) prediction = "decrease slightly";
-    else if (netWaterInput < -20) prediction = "decrease a lot";
+    const prediction = getPrediction(netWaterInput)
 
-    // Probably going to add graphs for weekly data
-
-    // Could add Additional Weather Data
-    // Temperature (temperature_2m_max, temperature_2m_min), Helps estimate evaporation impact.
-    // Wind Speed (windspeed_10m_max), Can affect evaporation rates over reservoirs.
     return (
-        <div className='card ml-4 pb-0 border-2 border-base-300 bg-white w-2/6 h-full'>
+        <div className='card ml-4 pb-0 border-2 border-base-300 bg-white w-2/6'>
             <div className="card-body items-center ">
 
                 <h1 className='card-title'>Weather Forecast for {area}</h1>
@@ -53,21 +31,15 @@ const WeatherData = ({ area, weatherData }: { area: string, weatherData: Weather
                 <div className='w-full'>
                     <h1 className="text-base text-center font-semibold">Weekly Precipitation vs. Evapotranspiration</h1>
                     <WeatherGraph weatherData={weatherData} />
-                    {/* <div className="text-xs">
-                        <p><strong>Precipitation:</strong> Refers to the total amount of water gained through rainfall, showers, and snowfall.</p>
-                        <p><strong>Evapotranspiration:</strong> Water loss through evaporation and transpiration (water vapor released by plants).</p>
-                    </div> */}
                 </div>
 
                 <div className="text-sm">
                     <h1 className='text-base text-center font-semibold'>Potential impact on Reservoir levels</h1>
                     <p>Over the next 7 days, the <strong>total precipitation</strong> is expected to be <strong>{totalPrecipitation}mm</strong>, while <strong>total evapotranspiration</strong> may 
                        remove <strong>{totalEvaporation} mm</strong>, leading to an estimated <strong>net water input</strong> of <strong>{netWaterInput} mm</strong>.</p>
-                    {/* Should probably add Color-Coded Indicator as a Visual representation of prediction */}
+
                     <p>Reservoir levels are likely to <strong>{prediction}</strong> based on the forecasted conditions in {area}.</p>
                 </div>
-                
-                <br />
 
                 <div className='w-full'>
                     <h1 className="text-base text-center font-semibold">Temperature & Wind Trends for the Next 7 Days</h1>
@@ -77,6 +49,26 @@ const WeatherData = ({ area, weatherData }: { area: string, weatherData: Weather
             </div>
         </div>
     )
+}
+
+export function getTotal(data: number[]) {
+    let total = 0
+    
+    for(let i = 0; i < data.length; i++) {
+        total += data[i]
+    }
+
+    return Math.round(total * 100) / 100
+}
+
+// Might change preditction message
+export function getPrediction(netWaterInput: number) {
+    let prediction = "not change significantly"; 
+    if (netWaterInput > 20) prediction = "increase a lot";
+    else if (netWaterInput > 5) prediction = "increase slightly";
+    else if (netWaterInput < -5) prediction = "decrease slightly";
+    else if (netWaterInput < -20) prediction = "decrease a lot";
+    return prediction;
 }
 
 export default WeatherData
