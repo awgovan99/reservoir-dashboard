@@ -1,9 +1,6 @@
 import React from 'react'
 import { WaterLevelGraph } from './WaterLevelGraph'
-import { CurrentLevel } from './CurrentLevel'
-import { ChangeFromLast } from './ChangeFromLast'
-import { HighestLevel } from './HighestLevel'
-import { LowestLevel } from './LowestLevel'
+import { StatCard } from './StatCard'
 
 interface Data {
     currentlvl: number,
@@ -24,23 +21,43 @@ const DisplayData = ({ area, data }: { area: string, data: Data[] } ) => {
         </div>
         
         {/* Extra Info */}
-        <div className='flex flex-col w-full'>
+        <div className='flex flex-col w-full h-fit'>
 
             {/* First Row */}
             <div className='flex w-full space-x-4'>
-                <CurrentLevel data={data}/>
-                <ChangeFromLast data={data}/>
+                <StatCard  stat={getCurrentLevel(data)} title={"Current Level"} />
+                <StatCard  stat={getChangeFromLast(data)} title={"Change From Last"} />
             </div>
             {/* Second Row */}
             <div className='flex w-full space-x-4'>
-                <HighestLevel data={data}/>
-                <LowestLevel data={data}/>
+                <StatCard  stat={getHighestLevel(data)} title={"Highest Level"} />
+                <StatCard  stat={getLowestLevel(data)} title={"Lowest Level"} />
             </div>
             
         </div>
 
     </div>
   )
+}
+
+export function getCurrentLevel(data: { currentlvl: number }[]): number {
+    if (data.length === 0) return 0;
+    return data[data.length - 1].currentlvl;
+}
+
+export function getChangeFromLast(data: { currentlvl: number }[]): number {
+    if (data.length < 2) return 0;
+    return data[data.length-1].currentlvl - data[data.length-2].currentlvl;
+}
+
+export function getHighestLevel(data: { currentlvl: number }[]): number {
+    if (data.length === 0) return 0;
+    return data.reduce((prev, current) => {return prev.currentlvl > current.currentlvl ? prev : current}).currentlvl;
+}
+
+export function getLowestLevel(data: { currentlvl: number }[]): number {
+    if (data.length === 0) return 0;
+    return data.reduce((prev, current) => {return prev.currentlvl < current.currentlvl ? prev : current}).currentlvl;
 }
 
 export default DisplayData
