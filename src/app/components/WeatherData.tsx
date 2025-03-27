@@ -66,8 +66,8 @@ export function getPrediction(netWaterInput: number) {
     let prediction = "not change significantly"; 
     if (netWaterInput > 20) prediction = "increase a lot";
     else if (netWaterInput > 5) prediction = "increase slightly";
-    else if (netWaterInput < -5) prediction = "decrease slightly";
     else if (netWaterInput < -20) prediction = "decrease a lot";
+    else if (netWaterInput < -5) prediction = "decrease slightly";
     return prediction;
 }
 
