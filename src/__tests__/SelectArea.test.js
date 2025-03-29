@@ -1,6 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import SelectArea from "@/src/app/components/SelectArea";
-import fetchMock from "jest-fetch-mock";
 
 // Stops graphs from being rendered
 jest.mock("@/src/app/components/WeatherData", () => () => <div>WeatherData Mock</div>);

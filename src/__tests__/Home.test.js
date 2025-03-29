@@ -1,7 +1,3 @@
-// import { getCurrentLevel } from "@/src/app/components/CurrentLevel";
-// import { getHighestLevel } from "@/src/app/components/HighestLevel";
-// import { getLowestLevel } from "@/src/app/components/LowestLevel";
-// import { getChangeFromLast } from "@/src/app/components/ChangeFromLast";
 import { getCurrentLevel, getHighestLevel, getLowestLevel, getChangeFromLast } from "@/src/app/components/DisplayData";
 import { getTotal, getPrediction } from "@/src/app/components/WeatherData";
 
@@ -12,13 +8,13 @@ describe("getCurrentLevel", () => {
     });
   
     it("should return the last element's water level", () => {
-      const mockData = [{ currentlvl: 1 }, { currentlvl: 5 }];
-      expect(getCurrentLevel(mockData)).toBe(5);
+      const data = [{ currentlvl: 1 }, { currentlvl: 5 }];
+      expect(getCurrentLevel(data)).toBe(5);
     });
   
     it("should work with one element", () => {
-      const mockData = [{ currentlvl: 10 }];
-      expect(getCurrentLevel(mockData)).toBe(10);
+      const data = [{ currentlvl: 10 }];
+      expect(getCurrentLevel(data)).toBe(10);
     });
 });
 
@@ -160,7 +156,8 @@ describe("getTotal", () => {
 // Tests for getPrediction()
 describe("getPrediction", () => {
 
-  it("returns 'increase' when number is greater than 20", () => {
+  it("returns 'increase a lot' when number is greater than 20", () => {
+    expect(getPrediction(21)).toBe("increase a lot");
     expect(getPrediction(25)).toBe("increase a lot");
     expect(getPrediction(100)).toBe("increase a lot");
   });
@@ -180,10 +177,11 @@ describe("getPrediction", () => {
   it("returns 'decrease slightly' when number is between -6 and -20", () => {
       expect(getPrediction(-10)).toBe("decrease slightly");
       expect(getPrediction(-6)).toBe("decrease slightly");
-      expect(getPrediction(-19)).toBe("decrease slightly");
+      expect(getPrediction(-20)).toBe("decrease slightly");
   });
 
-  it("returns 'decrease' when number is less than -20", () => {
+  it("returns 'decrease a lot' when number is less than -20", () => {
+      expect(getPrediction(-21)).toBe("decrease a lot");
       expect(getPrediction(-25)).toBe("decrease a lot");
       expect(getPrediction(-100)).toBe("decrease a lot");
   });

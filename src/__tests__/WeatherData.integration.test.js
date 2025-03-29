@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import SelectArea from "@/src/app/components/SelectArea";
 
 // Stops graphs from being rendered
@@ -6,35 +6,7 @@ jest.mock("@/src/app/components/WeatherGraph", () => () => <div>WeatherGraph Moc
 
 jest.mock("@/src/app/components/DisplayData", () => () => <div>DisplayData Mock</div>);
 
-// Could test both api's in this file, will probably keep them seperate
 
-// global.fetch = jest.fn((url) => {
-//     if (url.includes('/api/selectArea/')) {
-//         return Promise.resolve({
-//             ok: true,
-//             json: () => Promise.resolve({
-//                 message: 'Reservoir data fetched successfully',
-//                 data: [],
-//             }),
-//         });
-//     }
-//     if (url.includes('/api/weatherData/')) {
-//         return Promise.resolve({
-//             ok: true,
-//             json: () => Promise.resolve({
-//                 Precipitation: [],
-//                 Evaporation: [],
-//                 Dates: [],
-//                 Temperature: [],
-//                 WindSpeed: [],
-//             }),
-//         });
-//     }
-
-//     return Promise.reject(new Error('Invalid API endpoint'));
-// });
-
-// Will come back to this later, not as important as reservoir level api
 describe("Weather data fetch", () => {
     // Mocks fetch requests
     beforeEach(() => {
@@ -62,8 +34,6 @@ describe("Weather data fetch", () => {
         await waitFor(() => expect(fetch).toHaveBeenCalledWith(`/api/weatherData/UK`));
     });
 
-
-
     it("displays reservoir level data correctly", async () => {
         const mockData = {
             Precipitation: [2.799999952316284,0.20000000298023224,0.4000000059604645,2,4.999999046325684,9.500000953674316,1.2000001668930054],
@@ -82,20 +52,16 @@ describe("Weather data fetch", () => {
 
         render(<SelectArea />);
 
-        // Check total precipitation
-        // await waitFor(() => expect(screen.getByText(/total precipitation is expected to be 21.1mm/i)).toBeInTheDocument());
+        // Check total precipitation appears on screen
         await waitFor(() => expect(screen.getByText(/21.1mm/i)).toBeInTheDocument());
         
-        // Check total evapotranspiration
-        // await waitFor(() => expect(screen.getByText("total evapotranspiration may remove 11.84 mm")).toBeInTheDocument());
+        // Check total evapotranspiration appears on screen
         await waitFor(() => expect(screen.getByText(/11.84 mm/i)).toBeInTheDocument());
 
-        // Check estimated net water input
-        // await waitFor(() => expect(screen.getByText("estimated net water input of 9.26 mm")).toBeInTheDocument());
+        // Check estimated net water input appears on screen
         await waitFor(() => expect(screen.getByText(/9.26 mm/i)).toBeInTheDocument());
 
-        // Check prediction
-        // await waitFor(() => expect(screen.getByText("Reservoir levels are likely to increase slightly")).toBeInTheDocument());
+        // Check prediction appears on screen
         await waitFor(() => expect(screen.getByText(/increase slightly/i)).toBeInTheDocument());
     });
 });
