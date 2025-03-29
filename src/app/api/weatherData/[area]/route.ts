@@ -6,20 +6,21 @@ import { fetchWeatherApi } from 'openmeteo';
 // Use this to coords in weatherParams,
 // And to get index from area sent from front-end
 const areaCoords: {[index: string]: [number, number]} = {
-    "North Scotland":       [57.4791, -4.224], //Inverness
+    "North Scotland":       [57.4791, -4.224],  //Inverness
     "East Scotland":        [56.3952, -3.4314], //Perth
     "South Scotland":       [55.0696, -3.6114], //Dumfries
     "West Scotland":        [55.8651, -4.2576], //Glasgow
 
+    // Using 1 set of coords for England areas to reduce no. of api calls
     "North West England":   [53.7628, -2.7045], //Preston
     "North East England":   [54.9733, -1.614],  //Newcastle upon Tyne
     "Midlands":             [52.4814, -1.8998], //Birmingham
     "South West England":   [50.7236, -3.5275], //Exeter
     "South East England":   [51.5085, -0.1257], //London
 
-    "North West Wales":  [53.1413,-4.2702],  // Caernarfon
-    "North East Wales":  [53.1137,-3.3178],  // Ruthin
-    "South West Wales":  [51.8555,-4.3053],  // Carmarthen
+    "North West Wales":  [53.1413,-4.2702], // Caernarfon
+    "North East Wales":  [53.1137,-3.3178], // Ruthin
+    "South West Wales":  [51.8555,-4.3053], // Carmarthen
     "South East Wales":  [51.821,-3.0174],  // Abergavenny
 }
 
@@ -81,7 +82,7 @@ type Props = {
     params: Promise<{
       area: string;
     }>
-  };
+};
 
 // Helps convert month from number to string
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -90,14 +91,10 @@ const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "
 export async function GET(req: NextRequest, { params }: Props) {
     const resolvedParams = await params
     const { area } = resolvedParams
-
-    console.log("Weather api test")
-
     
     let dailyPrecipitation = [0,0,0,0,0,0,0];
     let dailyEvaporation = [0,0,0,0,0,0,0];
     let dates = [];
-    // let weatherCode = [0,0,0,0,0,0,0];
     let dailyTemperature = [0,0,0,0,0,0,0];
     let dailyWindSpeed = [0,0,0,0,0,0,0];
 
@@ -134,7 +131,6 @@ export async function GET(req: NextRequest, { params }: Props) {
             Precipitation: dailyPrecipitation, 
             Evaporation: dailyEvaporation, 
             Dates: dates,
-            // WeatherCode: weatherCode,
             Temperature:dailyTemperature,
             WindSpeed: dailyWindSpeed,
         }
@@ -148,10 +144,6 @@ export async function GET(req: NextRequest, { params }: Props) {
 
 
         for(let i = 0; i < areaWeatherData.daily.precipitation_sum.length; i++) {
-            // Loop through each day from current area
-            // dailyPrecipitation[i] += areaWeatherData.daily.precipitation_sum[i]
-            // dailyEvaporation[i] += areaWeatherData.daily.et0FaoEvapotranspiration[i]
-            // Gets dates
             let month = months[areaWeatherData.daily.time[i].getMonth()]
             dates.push(areaWeatherData.daily.time[i].getDate() + " " + month)
         }
@@ -161,10 +153,6 @@ export async function GET(req: NextRequest, { params }: Props) {
         // weatherCode = arrayValues(areaWeatherData.daily.weatherCode)
         dailyTemperature = arrayValues(areaWeatherData.daily.temperature2mMax)
         dailyWindSpeed = arrayValues(areaWeatherData.daily.windSpeed10mMax)
-
-        console.log("Date: " + areaWeatherData.daily.time[0].getDate())
-        console.log("Month: " + areaWeatherData.daily.time[0].getMonth())
-
 
         // Sends weekly data to page for use in graph
         res = {
@@ -176,8 +164,6 @@ export async function GET(req: NextRequest, { params }: Props) {
             WindSpeed: dailyWindSpeed,
         }
     }
-
-    console.log(res)
 
     return NextResponse.json(res)
     

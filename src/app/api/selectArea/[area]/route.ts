@@ -11,22 +11,16 @@ type Props = {
     }>
   };
 
-  //might remove message from data
+
 export async function GET(req: NextRequest, { params }: Props) {
 
     const resolvedParams = await params
     const { area } = resolvedParams
-   
-    console.log("api: " + area)
 
     let res = {message: 'Invalid request', data: []}
 
-    if(area !== "UK") {
-        const qry = await db.select().from(waterLevels).where(eq(waterLevels.area, area));
-        const data = JSON.parse(JSON.stringify(qry));
-        res = { message: 'Data fetched successfully', data: data };
-    }
-    else if(area === "UK") {
+    // Retrieves the average water level using the most recent reading from each month for each location.
+    if(area === "UK") {
         // First select:
         // Gets latest recording in each month from each area then takes the avg of all areas in each month
         // strftime('%Y-%m', date) gets the year and month from date.
@@ -60,6 +54,12 @@ export async function GET(req: NextRequest, { params }: Props) {
         `;
 
         const qry = await db.all(rawQuery)
+        const data = JSON.parse(JSON.stringify(qry));
+        res = { message: 'Data fetched successfully', data: data };
+    }
+
+    else{
+        const qry = await db.select().from(waterLevels).where(eq(waterLevels.area, area));
         const data = JSON.parse(JSON.stringify(qry));
         res = { message: 'Data fetched successfully', data: data };
     }

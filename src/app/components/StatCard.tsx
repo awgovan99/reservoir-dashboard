@@ -1,13 +1,7 @@
 import React from 'react'
 
+// Used to display key metrics from reservoir data e.g. change from last
 export function StatCard({stat, title}: {stat: number, title: string}) {
-    // const { data } = params;
-
-    // let lowestLvl = 0
-    // if(data.length !== 0){
-    //     lowestLvl = data.reduce((prev, current) => {return prev.currentlvl < current.currentlvl ? prev : current}).currentlvl;
-    // }
-
     return(
         <div className='card  border-2 bg-white border-base-300 mt-4 w-2/5 flex-1'>
             <div className="card-body items-center text-center">

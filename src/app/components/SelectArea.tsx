@@ -8,7 +8,6 @@ const SelectArea = () => {
     const [data, setData] = useState([]);
     const [weatherData, setWeatherData] = useState({Precipitation:[], Evaporation:[], Dates: [], Temperature:[], WindSpeed: [],});
 
-    // UK should get avg lvl for whole country
     const areasScotland = ["North Scotland", "West Scotland", "East Scotland", "South Scotland"]
     const areasWales = ["North West Wales", "North East Wales", "South West Wales", "South East Wales"]
     
@@ -22,18 +21,21 @@ const SelectArea = () => {
     const areasEngland = [areasNorthWest, areasNorthEast, areasMidlands, areasSouthWest, areasSouthEast]
 
     // calls function when page loads
-    // Sets selected area to UK which calls other useEffect that gets data
+    // Sets selected area to UK which calls other useEffect that gets api data
     useEffect(() => {
         setArea("UK")
     }, []);
 
     useEffect(() => {
-        console.log("Getting Data...")
-        getReservoirData(selectedArea);
-        getWeatherData(selectedArea);
+        try {
+            getReservoirData(selectedArea);
+            getWeatherData(selectedArea);
+        } catch (error) {
+            console.error("Error fetching data", error);
+        }
     }, [selectedArea]);
 
-    // Maybe make functions return the api data, then set the data in the useEffect
+    
     const getWeatherData = async (area: string) => {
         // Purpose is to limit number of api calls by reducing amount of coordinates needed
         if(areasNorthWest.includes(area)) area = "North West England";
@@ -42,19 +44,13 @@ const SelectArea = () => {
         else if(areasSouthWest.includes(area)) area = "South West England";
         else if(areasSouthEast.includes(area)) area = "South East England";
 
-        console.log("Weather area: " + area)
-
         const response = await fetch(`/api/weatherData/${encodeURIComponent(area)}`);
         const weatherData = await response.json();
 
         setWeatherData(weatherData)
     }
 
-    //should move at somepoint
-    // If move this, should probably make return data
     const getReservoirData = async (area: string) => {
-        console.log("Reservoir Area: " + area)
-
         const response = await fetch(`/api/selectArea/${encodeURIComponent(area)}`);
         
         if (!response.ok) {
@@ -62,8 +58,6 @@ const SelectArea = () => {
         }
         
         const data = await response.json();  
-        
-        console.log(data.data); 
         setData(data.data)
     }
 
@@ -77,8 +71,6 @@ const SelectArea = () => {
                 <div className="drawer-content flex pt-24 pb-8 mx-8">
                     {/* Page content here */}
 
-                    {/* <label htmlFor="my-drawer-2" className="btn drawer-button lg:hidden bg-base-300">View Areas</label> */}
-
                     <DisplayData area={selectedArea} data={data} />
 
                     <WeatherData area={selectedArea} weatherData={weatherData} />
@@ -86,16 +78,11 @@ const SelectArea = () => {
                 </div>
 
                 <div className="drawer-side pt-16">
-                    {/* <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label> */}
-                    {/* bg-base-300, border-r-2*/}
                     <ul className="menu bg-blue-400 text-base-content min-h-full w-80 p-4 border-r-2 border-base-300">
                     {/* Sidebar content here */}
                         
-                        {/* Could have sidebar title here e.g. Reservoir locations or something like that */}
-
                         {/* UK */}
-                        {/* Make Bigger */}
-                        <button onClick={() => {if("UK" !== selectedArea) {console.log("UK"); setArea("UK");}}} className={`border-2 border-black mt-4 shadow-xl btn text-black bg-blue-300 hover:bg-blue-500 ${
+                        <button onClick={() => {if("UK" !== selectedArea) {setArea("UK");}}} className={`border-2 border-black mt-4 shadow-xl btn text-black bg-blue-300 hover:bg-blue-500 ${
                             // Highlights clicked button
                             "UK" === selectedArea ? "bg-blue-500" : "bg-blue-300"
                         }`}>UK</button>
@@ -106,7 +93,7 @@ const SelectArea = () => {
                             <div className="collapse-title text-xl font-medium text-black">Scotland</div>
                             <div className="collapse-content">
                                 {areasScotland.map((area, index) => (
-                                    <button onClick={() => {if(area !== selectedArea) {console.log(area); setArea(area);}}} className={`btn mb-1 w-full text-black bg-blue-300 hover:bg-blue-500 ${
+                                    <button onClick={() => {if(area !== selectedArea) {setArea(area);}}} className={`btn mb-1 w-full text-black bg-blue-300 hover:bg-blue-500 ${
                                         // Highlights clicked button
                                         area === selectedArea ? "bg-blue-500" : "bg-blue-300"
                                     }`}  key={index} value={area}>{area}</button>
@@ -119,22 +106,22 @@ const SelectArea = () => {
                             <input type="checkbox" />
                             <div className="collapse-title text-xl font-medium text-black">England</div>
                             <div className="collapse-content">
-                                {areasEnglandNames.map((area, index) => (
 
+                                {areasEnglandNames.map((area, index) => (
                                     <div className="collapse collapse-arrow bg-white border-2 border-black mt-4 shadow-xl"  key={index}>
                                     <input type="checkbox" />
                                     <div className="collapse-title text-xl font-medium text-black">{area}</div>
                                     <div className="collapse-content">
                                         {areasEngland[index].map((a, i) => (
-                                            <button onClick={() => {if(a !== selectedArea) {console.log(a); console.log(i); setArea(a);}}} className={`btn mb-1 w-full text-black bg-blue-300 hover:bg-blue-500 ${
+                                            <button onClick={() => {if(a !== selectedArea) {setArea(a);}}} className={`btn mb-1 w-full text-black bg-blue-300 hover:bg-blue-500 ${
                                                 // Highlights clicked button
                                                 a === selectedArea ? "bg-blue-500" : "bg-blue-300"
                                             }`}  key={i} value={a}>{a}</button>
                                         ))}
                                     </div>
                                 </div>
-
                                 ))}
+
                             </div>
                         </div>
 
@@ -144,14 +131,13 @@ const SelectArea = () => {
                             <div className="collapse-title text-xl font-medium text-black">Wales</div>
                             <div className="collapse-content">
                                 {areasWales.map((area, index) => (
-                                    <button onClick={() => {if(area !== selectedArea) {console.log(area); setArea(area);}}} className={`btn mb-1 w-full text-black bg-blue-300 hover:bg-blue-500 ${
+                                    <button onClick={() => {if(area !== selectedArea) {setArea(area);}}} className={`btn mb-1 w-full text-black bg-blue-300 hover:bg-blue-500 ${
                                         // Highlights clicked button
                                         area === selectedArea ? "bg-blue-500" : "bg-blue-300"
                                     }`} key={index} value={area}>{area}</button>
                                 ))}
                             </div>
                         </div>
-                        
                     </ul>
                 </div>
             </div>
