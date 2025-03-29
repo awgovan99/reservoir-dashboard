@@ -17,7 +17,8 @@ const WeatherData = ({ area, weatherData }: { area: string, weatherData: Weather
 
     totalPrecipitation = getTotal(weatherData.Precipitation);
     totalEvaporation = getTotal(weatherData.Evaporation);
-    // Could maybe include wind and temp in calc for netWaterInput
+    
+    // Calculates net water input by subtracting evapotranspiration (water loss) from total precipitation (water gain).
     const netWaterInput = Math.round((totalPrecipitation - totalEvaporation) * 100) / 100
 
     const prediction = getPrediction(netWaterInput)

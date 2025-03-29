@@ -16,7 +16,7 @@ const DisplayData = ({ area, data }: { area: string, data: Data[] } ) => {
         <div className='card pb-2 border-2 border-base-300 bg-white w-full h-[59%]'>
             <div className="card-body items-center text-center">
                 <h1 className='card-title'>Reservoir Levels in {area}</h1>
-                <WaterLevelGraph area={area} data={data} />
+                <WaterLevelGraph data={data} />
             </div>     
         </div>
         

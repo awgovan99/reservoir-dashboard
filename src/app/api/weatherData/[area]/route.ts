@@ -27,7 +27,7 @@ const areaCoords: {[index: string]: [number, number]} = {
 const latitudes = []
 const longitudes = []
 
-for (let key in areaCoords) { 
+for (const key in areaCoords) { 
     latitudes.push(areaCoords[key][0]);
     longitudes.push(areaCoords[key][1]);
 }
@@ -94,11 +94,17 @@ export async function GET(req: NextRequest, { params }: Props) {
     
     let dailyPrecipitation = [0,0,0,0,0,0,0];
     let dailyEvaporation = [0,0,0,0,0,0,0];
-    let dates = [];
+    const dates:string[] = [];
     let dailyTemperature = [0,0,0,0,0,0,0];
     let dailyWindSpeed = [0,0,0,0,0,0,0];
 
-    let res: {}
+    let res = {
+        Precipitation: dailyPrecipitation, 
+        Evaporation: dailyEvaporation, 
+        Dates: dates,
+        Temperature:dailyTemperature,
+        WindSpeed: dailyWindSpeed,
+    }
 
     // if area == UK then take avg of all weatherData
     if(area === "UK") {
@@ -123,7 +129,7 @@ export async function GET(req: NextRequest, { params }: Props) {
             dailyWindSpeed[i] = dailyWindSpeed[i] / weatherData.length;
 
             // Gets dates
-            let month = months[weatherData[0].daily.time[i].getMonth()]
+            const month = months[weatherData[0].daily.time[i].getMonth()]
             dates.push(weatherData[0].daily.time[i].getDate() + " " + month)
         }
 
@@ -144,7 +150,7 @@ export async function GET(req: NextRequest, { params }: Props) {
 
 
         for(let i = 0; i < areaWeatherData.daily.precipitation_sum.length; i++) {
-            let month = months[areaWeatherData.daily.time[i].getMonth()]
+            const month = months[areaWeatherData.daily.time[i].getMonth()]
             dates.push(areaWeatherData.daily.time[i].getDate() + " " + month)
         }
 
@@ -170,7 +176,7 @@ export async function GET(req: NextRequest, { params }: Props) {
 }
 
 export const arrayValues = (values: Float32Array): number[] => {
-    let valuesArray: number[] = [0,0,0,0,0,0,0]
+    const valuesArray: number[] = [0,0,0,0,0,0,0]
 
     for(let i = 0; i < values.length; i++) {
         // Loop through each day from current area

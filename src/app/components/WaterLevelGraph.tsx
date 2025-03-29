@@ -15,7 +15,7 @@ defaults.maintainAspectRatio = false;
 defaults.responsive = true;
 
 // Might try chart.js instead cause this broky
-export function WaterLevelGraph({ area, data }: { area: string, data: Data[] } ) {
+export function WaterLevelGraph({ data }: { data: Data[] } ) {
 
     const chartData = {
         labels: data.map(d => d.date),
