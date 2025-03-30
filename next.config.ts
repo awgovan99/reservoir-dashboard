@@ -1,9 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  experimental: {
-    forceSwcTransforms: true, // Force SWC instead of Babel
-  },
+  /* config options here */
 };
 
 export default nextConfig;
