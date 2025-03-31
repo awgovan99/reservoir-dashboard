@@ -19,6 +19,7 @@ const WeatherData = ({ area, weatherData }: { area: string, weatherData: Weather
     totalEvaporation = getTotal(weatherData.Evaporation);
     
     // Calculates net water input by subtracting evapotranspiration (water loss) from total precipitation (water gain).
+    // From openMeteo: ET₀ is calculated from temperature, wind speed, humidity and solar radiation.
     const netWaterInput = Math.round((totalPrecipitation - totalEvaporation) * 100) / 100
 
     const prediction = getPrediction(netWaterInput)
@@ -62,7 +63,6 @@ export function getTotal(data: number[]) {
     return Math.round(total * 100) / 100
 }
 
-// Might change preditction message
 export function getPrediction(netWaterInput: number) {
     let prediction = "not change significantly"; 
     if (netWaterInput > 20) prediction = "increase a lot";

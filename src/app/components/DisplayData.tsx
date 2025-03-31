@@ -20,7 +20,7 @@ const DisplayData = ({ area, data }: { area: string, data: Data[] } ) => {
             </div>     
         </div>
         
-        {/* Extra Info */}
+        {/* Reservoir Metrics */}
         <div className='flex flex-col w-full h-fit'>
 
             {/* First Row */}

@@ -2,6 +2,8 @@ import { config } from 'dotenv';
 import { defineConfig } from 'drizzle-kit';
 config({ path: '.env' });
 
+// From: https://docs.turso.tech/sdk/ts/orm/drizzle
+
 export default defineConfig({
   schema: "./src/db/schema.ts",
   out: "./migrations",

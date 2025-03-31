@@ -69,7 +69,6 @@ describe("SelectArea fetch", () => {
         await waitFor(() => expect(screen.getAllByText('0%')).toHaveLength(4));
     });
 
-    // Could write test that check that the mock data is being used correctly by the components
     it("displays reservoir level data correctly", async () => {
         const mockData = [
             {currentlvl: 92, area: 'North Scotland', date: '2025-01-21'},

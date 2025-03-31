@@ -7,7 +7,7 @@ jest.mock("@/components/WeatherGraph", () => () => <div>WeatherGraph Mock</div>)
 jest.mock("@/components/DisplayData", () => () => <div>DisplayData Mock</div>);
 
 
-describe("Weather data fetch", () => {
+describe("WeatherData fetch", () => {
     // Mocks fetch requests
     beforeEach(() => {
         global.fetch = jest.fn(() =>

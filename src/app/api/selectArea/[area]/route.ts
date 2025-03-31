@@ -9,7 +9,7 @@ type Props = {
     params: Promise<{
       area: string;
     }>
-  };
+};
 
 
 export async function GET(req: NextRequest, { params }: Props) {
@@ -58,6 +58,7 @@ export async function GET(req: NextRequest, { params }: Props) {
         res = { message: 'Data fetched successfully', data: data };
     }
 
+    // Gets reservoir data from selected area
     else{
         const qry = await db.select().from(waterLevels).where(eq(waterLevels.area, area));
         const data = JSON.parse(JSON.stringify(qry));

@@ -14,7 +14,6 @@ Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 defaults.maintainAspectRatio = false;
 defaults.responsive = true;
 
-// Might try chart.js instead cause this broky
 export function WaterLevelGraph({ data }: { data: Data[] } ) {
 
     const chartData = {
@@ -28,7 +27,6 @@ export function WaterLevelGraph({ data }: { data: Data[] } ) {
         ]
     };
 
-    // Might move this to a new file for all chart options
     const chartOptions: ChartOptions<'line'> = {
         responsive: true,
         interaction: {mode: 'nearest', intersect: false,},

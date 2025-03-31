@@ -1,5 +1,7 @@
 const nextJest = require('next/jest');
 
+// From: https://nextjs.org/docs/app/building-your-application/testing/jest
+
 /** @type {import('jest').Config} */
 const createJestConfig = nextJest({
   dir: './',

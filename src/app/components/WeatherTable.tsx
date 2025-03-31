@@ -2,11 +2,10 @@ import React from 'react'
 import { WeatherData } from "./WeatherData";
 
 const WeatherTable = ({ weatherData }: { weatherData: WeatherData }) => {
-
   return (
     <div className="w-full px-0 pb-0 overflow-x-auto rounded-box border border-base-content/5  text-sm overflow-auto flex">
         <table className="table tabs-sm border-collapse border-base-300 w-full px-0 pb-0 bg-gray-50">
-            {/* head */}
+            
             <thead className='bg-blue-400'>
                 <tr>
                     <th></th>

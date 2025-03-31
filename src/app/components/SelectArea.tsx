@@ -20,7 +20,7 @@ const SelectArea = () => {
     const areasSouthEast = ["Bewl Water", "Darwell", "Powdermill", "Weir Wood", "Ardingly", "Arlington", "Oxfordshire", "London", "Hanningfield and Abberton", "Bough Beech"];  // Southern water, South East Water, Thames Water, *Affinity Water*(Not sure), *Portsmouth Water, Essex and Suffolk Water(One company), SES
     const areasEngland = [areasNorthWest, areasNorthEast, areasMidlands, areasSouthWest, areasSouthEast]
 
-    // calls function when page loads
+    // Calls function when page loads
     // Sets selected area to UK which calls other useEffect that gets api data
     useEffect(() => {
         setArea("UK")

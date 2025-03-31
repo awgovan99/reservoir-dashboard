@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { fetchWeatherApi } from 'openmeteo';
 
-// Some api code is from https://open-meteo.com/en/docs
-
 // Use this to coords in weatherParams,
 // And to get index from area sent from front-end
 const areaCoords: {[index: string]: [number, number]} = {
@@ -31,6 +29,8 @@ for (const key in areaCoords) {
     latitudes.push(areaCoords[key][0]);
     longitudes.push(areaCoords[key][1]);
 }
+
+// Some api code is from https://open-meteo.com/en/docs
 
 // Do 1 call when page loads so can take avg of all areas for UK
 // Means don't have do call from openmeteo again
@@ -87,7 +87,6 @@ type Props = {
 // Helps convert month from number to string
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-// Could return weekly forecast data aswell inorder to plot graphs
 export async function GET(req: NextRequest, { params }: Props) {
     const resolvedParams = await params
     const { area } = resolvedParams
@@ -165,7 +164,6 @@ export async function GET(req: NextRequest, { params }: Props) {
             Precipitation: dailyPrecipitation, 
             Evaporation: dailyEvaporation, 
             Dates: dates,
-            // WeatherCode: weatherCode,
             Temperature: dailyTemperature,
             WindSpeed: dailyWindSpeed,
         }
