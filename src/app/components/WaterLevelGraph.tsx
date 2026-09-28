@@ -51,9 +51,6 @@ export function WaterLevelGraph({ data }: { data: Data[] } ) {
                   return `${Math.round(value as number)}%`;
                 }}},
         },
-        elements: {
-          line: {tension: 0.5, /* Makes line curve */},
-        },
     };
     
 

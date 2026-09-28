@@ -13,7 +13,8 @@ const DisplayData = ({ area, data }: { area: string, data: Data[] } ) => {
     <div className='w-4/6 h-full'>
 
         {/* Graph */}
-        <div className='card pb-2 border-2 border-base-300 bg-white w-full h-[59%]'>
+        {/* Can use rounded-[0.5rem] to change border radius border-base-300 border-blue-400 */}
+        <div className='card pb-2 border-2 border-neutral-300 bg-white w-full h-[59%] rounded-[0.5rem]'>
             <div className="card-body items-center text-center">
                 <h1 className='card-title'>Reservoir Levels in {area}</h1>
                 <WaterLevelGraph data={data} />

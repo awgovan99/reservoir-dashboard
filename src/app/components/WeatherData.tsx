@@ -25,7 +25,7 @@ const WeatherData = ({ area, weatherData }: { area: string, weatherData: Weather
     const prediction = getPrediction(netWaterInput)
 
     return (
-        <div className='card ml-4 pb-0 border-2 border-base-300 bg-white w-2/6'>
+        <div className='card ml-4 pb-0 border-2 border-neutral-300 bg-white w-2/6'>
             <div className="card-body items-center ">
 
                 <h1 className='card-title'>Weather Forecast for {area}</h1>

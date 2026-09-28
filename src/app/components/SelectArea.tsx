@@ -78,17 +78,20 @@ const SelectArea = () => {
                 </div>
 
                 <div className="drawer-side pt-16">
-                    <ul className="menu bg-blue-400 text-base-content min-h-full w-80 p-4 border-r-2 border-base-300">
+                    <ul className="menu bg-white text-base-content min-h-full w-80 pr-0 pl-0 border-r-2 border-neutral-300">
                     {/* Sidebar content here */}
                         
                         {/* UK */}
-                        <button onClick={() => {if("UK" !== selectedArea) {setArea("UK");}}} className={`border-2 border-black mt-4 shadow-xl btn text-black bg-blue-300 hover:bg-blue-500 ${
+                        <button onClick={() => {if("UK" !== selectedArea) {setArea("UK");}}} className={`justify-start mt-4 shadow-xl btn text-xl 
+                        font-medium border-0 rounded-[0] text-black hover:bg-blue-400 ${
                             // Highlights clicked button
-                            "UK" === selectedArea ? "bg-blue-500" : "bg-blue-300"
+                            "UK" == selectedArea ? "bg-blue-500" : "bg-white"
                         }`}>UK</button>
                     
                         {/* Scotland */}
-                        <div className="collapse collapse-arrow bg-white border-2 border-black mt-4 shadow-xl">
+                        {/* Maybe change radius to 0 and background colour*/}
+                        {/* bg-blue-300 hover:bg-blue-500 */}
+                        <div className="collapse collapse-arrow bg-white  border-neutral-300 mt-4 shadow-xl rounded-[0] hover:bg-blue-400"> 
                             <input type="checkbox" />
                             <div className="collapse-title text-xl font-medium text-black">Scotland</div>
                             <div className="collapse-content">
@@ -102,13 +105,13 @@ const SelectArea = () => {
                         </div>
 
                         {/* England */}
-                        <div className="collapse collapse-arrow bg-white border-2 border-black mt-4 shadow-xl">
+                        <div className="collapse collapse-arrow bg-white border-black mt-4 shadow-xl rounded-[0] hover:bg-blue-400">
                             <input type="checkbox" />
                             <div className="collapse-title text-xl font-medium text-black">England</div>
                             <div className="collapse-content">
 
                                 {areasEnglandNames.map((area, index) => (
-                                    <div className="collapse collapse-arrow bg-white border-2 border-black mt-4 shadow-xl"  key={index}>
+                                    <div className="collapse collapse-arrow bg-white border-black mt-4 shadow-xl"  key={index}>
                                     <input type="checkbox" />
                                     <div className="collapse-title text-xl font-medium text-black">{area}</div>
                                     <div className="collapse-content">
@@ -126,7 +129,7 @@ const SelectArea = () => {
                         </div>
 
                         {/* Wales */}
-                        <div className="collapse collapse-arrow bg-white border-2 border-black mt-4 shadow-xl">
+                        <div className="collapse collapse-arrow bg-white border-black mt-4 shadow-xl rounded-[0] hover:bg-blue-400">
                             <input type="checkbox" />
                             <div className="collapse-title text-xl font-medium text-black">Wales</div>
                             <div className="collapse-content">
