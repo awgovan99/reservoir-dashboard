@@ -14,26 +14,24 @@ class ReservoirScraperPipeline:
 
 
 from dotenv import dotenv_values
-from pydal import DAL
-# import is required to set up libsql:// and sqld:// for pyDAL:
-import pydal_libsql
+import libsql
 
 
 class SaveToDBPipeline:
 
     def __init__(self):
         env = dotenv_values()
-        uri = env.get("TURSO_CONNECTION_URL")
-        token = env.get("TURSO_AUTH_TOKEN")
 
-        # Set up the database connection with URI and authentication token
-        self.db = DAL(uri, driver_args={"auth_token": token})
+        self.db = libsql.connect(
+            database=env.get("TURSO_CONNECTION_URL"),
+            auth_token=env.get("TURSO_AUTH_TOKEN"),
+        )
 
     def process_item(self, item, spider):
         # should add check to make sure not inserting duplicate rows, so check if any results with same area and date
-        res = self.db.executesql("SELECT * FROM levels WHERE area = ? AND date = ?;", (item["area"], item["date"]))
+        res = self.db.execute("SELECT * FROM levels WHERE area = ? AND date = ?;", (item["area"], item["date"])).fetchall()
         if len(res) == 0:
-            self.db.executesql("INSERT INTO levels (currentlvl, area, date) VALUES (?, ?, ?);", (int(item["level"]), item["area"], item["date"]))
+            self.db.execute("INSERT INTO levels (currentlvl, area, date) VALUES (?, ?, ?);", (int(item["level"]), item["area"], item["date"]))
             # Need db.commit() to commit changes to database
             self.db.commit()
         return item
