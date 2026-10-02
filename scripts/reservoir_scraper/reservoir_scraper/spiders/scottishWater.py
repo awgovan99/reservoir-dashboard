@@ -15,23 +15,25 @@ class ScottishwaterSpider(scrapy.Spider):
         date = re.sub(r'(\d+)(st|nd|rd|th)', r'\1', date)
         date = datetime.strptime(date, "%d %B %Y").strftime("%Y-%m-%d")
 
-        # Get water levels from site
-        levels = response.css("td.telerik-reTableOddCol-4  span::text").getall()
-        levels = levels + [response.css("td.telerik-reTableFooterOddCol-4 span::text").getall()[1]]
+        # Get regional table
+        table = response.css("table.telerik-reTable-4")[1]
 
-        # Get areas from site
-        areas = response.css("td.telerik-reTableFirstCol-4  span::text").getall()
-        areas = areas + [response.css("td.telerik-reTableFooterFirstCol-4 span::text").getall()[1]]
+        # Skip header row
+        rows = table.css("tbody tr")[1:]
 
-        for level, area in zip(levels, areas):
-            # Reformat levels and areas
-            # Could maybe do reformatting in items or pipeline
-            level = re.sub(r'\D', '', level)
-            area = area.replace('\xa0', '') + " Scotland"
+        for row in rows:
+            # Get area and current level
+            area = "".join(row.css("td")[0].css("::text").getall()).strip()
+
+            level = "".join(row.css("td")[1].css("::text").getall()).strip()
+
+            # Clean up
+            area = area.replace("\xa0", "")
+            level = re.sub(r"\D", "", level)
 
             reservoir_item = ReservoirDataItem()
             reservoir_item["level"] = level
-            reservoir_item["area"] = area
+            reservoir_item["area"] = area + " Scotland"
             reservoir_item["date"] = date
 
             yield reservoir_item
