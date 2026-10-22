@@ -12,7 +12,7 @@ class ReservoirScraperPipeline:
     def process_item(self, item, spider):
         return item
 
-
+from pathlib import Path
 from dotenv import dotenv_values
 import libsql
 
@@ -20,7 +20,9 @@ import libsql
 class SaveToDBPipeline:
 
     def __init__(self):
-        env = dotenv_values()
+        PROJECT_ROOT = Path(__file__).resolve().parents[3]
+        env_path = PROJECT_ROOT / ".env"
+        env = dotenv_values(env_path)
 
         self.db = libsql.connect(
             database=env.get("TURSO_CONNECTION_URL"),
