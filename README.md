@@ -11,7 +11,7 @@ This project aims to address this challenge by bringing together publicly availa
 ## Demo
 View the live application: [UK Reservoir Monitor](https://reservoir-dashboard-eight.vercel.app/)
 
-![UK Reservoir Monitor dashboard](screenshots/dashboard.png)
+<img width="1920" height="918" alt="dashboard" src="https://github.com/user-attachments/assets/32a9e208-81d8-438e-aeb1-9d8797a1c4c6" />
 
 ## Features
 - Reservoir Data Collection: Collects publicly available reservoir level data using web scrapers, with three working scrapers currently implemented.
@@ -62,7 +62,7 @@ Next.js API routes handle data requests from the dashboard, using URL slugs to r
 ### Styling
 Tailwind CSS provides utility-based styling, while DaisyUI supplies reusable interface components, including buttons, dropdowns, cards and sidebars. Together, they help maintain a consistent and responsive layout.
 
-![UK Reservoir Monitor dashboard](screenshots/dashboard.png)
+<img width="1920" height="918" alt="dashboard" src="https://github.com/user-attachments/assets/32a9e208-81d8-438e-aeb1-9d8797a1c4c6" />
 
 ## Technology Stack
 - Frontend: Next.js, React, TypeScript
